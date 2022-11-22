@@ -58,21 +58,16 @@ internal class Randomiser
 
     public class PlayerRandomizeResult
     {
-        public string PlayerName { get; set; }
+        public required string PlayerName { get; set; }
         public string Color { get; set; }
         public string[] Factions { get; set; }
-
-        public override string ToString()
-        {
-            return $"{PlayerName} - {Color} - {string.Join(",", Factions)}";
-        }
     }
 
     public PlayerRandomizeResult[] Randomize()
     {
         while (Players.Count < 8)
         {
-            Players.Add($"Запасной игрок {Players.Count + 1}");
+            Players.Add($"Запасной&nbsp;игрок&nbsp;{Players.Count + 1}");
         }
 
         var playersDict = Players.ToDictionary(player => player, player => new PlayerRandomizeResult { PlayerName = player });
@@ -101,6 +96,6 @@ internal class Randomiser
         var idx = Random.Shared.Next(0, set.Count);
         var selected = set.ElementAt(idx);
         set.Remove(selected);
-        return selected;
+        return selected.Replace(" ", "&nbsp;");
     }
 }
