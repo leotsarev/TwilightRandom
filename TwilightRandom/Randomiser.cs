@@ -4,73 +4,34 @@ namespace TwilightRandom;
 
 internal class Randomiser
 {
-    public HashSet<string> Factions = new(new[]
-{
-        "The Arborec",
-        "The Barony of Letnev",
-        "The Clan of Saar",
-        "The Embers of Muaat (Тлеющие с Муаата)",
-        "The Emirates of Hacan",
-        "The Federation of Sol",
-        "The Ghosts of Creuss (Призраки Креусса)",
-        "The L1Z1X Mindnet",
-        "The Mentak Coalition",
-        "The Naalu Collective",
-        "The Nekro Virus (Некровирус)",
-        "Sardakk N’orr",
-        "The Universities of Jol-Nar (Университеты Жол-Нара)",
-        "The Winnu",
-        "The Xxcha Kingdom",
-        "The Yin Brotherhood",
-        "The Yssaril Tribes",
-        "The Argent Flight",
-        "The Empyrean",
-        "The Mahact Gene-Sorcerers",
-        "The Naaz-Rokha Alliance",
-        "The Nomad (Кочевник)",
-        "The Titans of Ul (Титаны Ула)",
-        "The Vuil'Raith Cabal (Кабал вуил’райт)",
-    });
+    private HashSet<string> Players { get; }
+    private HashSet<string> Colors { get; }
+    private HashSet<string> Factions { get; }
 
-    public HashSet<string> Colors = new(new[]
+    public Randomiser(GameRequest gameModel)
     {
-        "Черный",
-        "Желтый",
-        "Фиолетовый",
-        "Зеленый",
-        "Синий",
-        "Оранжевый",
-        "Красный",
-        "Розовый",
-    });
-
-    public HashSet<string> Players = new(new[]
-    {
-        "@leotsarev",
-        "@GrayFox23b",
-        "@Germesina",
-        //"@Warpo",
-        "@Korran_Horn",
-        "@blakotya",
-        "@Werrus",
-        "Руслан",
-    });
-
-    public class PlayerRandomizeResult
-    {
-        public required string PlayerName { get; set; }
-        public string Color { get; set; }
-        public string[] Factions { get; set; }
+        Players = new HashSet<string>(gameModel.Players ?? Array.Empty<string>());
+        Colors = new HashSet<string>(DefaultData.Colors);
+        Factions = new HashSet<string>(DefaultData.Factions);
     }
 
-    public PlayerRandomizeResult[] Randomize()
+    private class PlayerRandomizeCell
+    {
+        public required string PlayerName { get; set; }
+        public string? Color { get; set; }
+        public string[]? Factions { get; set; }
+    }
+
+
+
+    public RandomizeResult Randomize()
     {
         while (Players.Count < 8)
         {
             Players.Add($"Запасной&nbsp;игрок&nbsp;{Players.Count + 1}");
         }
 
-        var playersDict = Players.ToDictionary(player => player, player => new PlayerRandomizeResult { PlayerName = player });
+        var playersDict = Players.ToDictionary(player => player, player => new PlayerRandomizeCell { PlayerName = player });
 
         if (playersDict.TryGetValue("@Germesina", out var germesina))
         {
@@ -88,7 +49,8 @@ internal class Randomiser
             result.Factions = new[] { SelectAndRemoveRandom(Factions), SelectAndRemoveRandom(Factions) };
         }
 
-        return playersDict.Values.Shuffle().ToArray();
+        var items = playersDict.Values.Shuffle().Select(x => new PlayerRandomizeItemResult(x.PlayerName, x.Color!, x.Factions!)).ToArray();
+        return new RandomizeResult(items, Factions.ToArray());
     }
 
     private static string SelectAndRemoveRandom(HashSet<string> set)

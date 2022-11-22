@@ -9,6 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="morelinq" Version="3.3.2" />
+	<PackageReference Include="Tomlyn" Version="0.16.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="twinlight_players.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
