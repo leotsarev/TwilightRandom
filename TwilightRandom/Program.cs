@@ -1,24 +1,23 @@
-﻿namespace TwilightRandom
+﻿namespace TwilightRandom;
+
+internal class Program
 {
-    internal class Program
+
+
+    static void Main(string[] args)
     {
-
-
-        static void Main(string[] args)
+        var randomizer = new Randomiser();
+        var result = randomizer.Randomize();
+        foreach(var x in result)
         {
-            var randomizer = new Randomiser();
-            var result = randomizer.Randomize();
-            foreach(var x in result)
-            {
-                Console.WriteLine(x);
-            }
+            Console.WriteLine(x);
+        }
 
-            Console.WriteLine("Невыбранные фракции");
-            foreach (var f in randomizer.Factions)
-            {
-                Console.WriteLine(f);
+        Console.WriteLine("Невыбранные фракции");
+        foreach (var f in randomizer.Factions)
+        {
+            Console.WriteLine(f);
 
-            }
         }
     }
 }
