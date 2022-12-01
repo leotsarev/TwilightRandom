@@ -1,5 +1,7 @@
-﻿namespace TwilightRandom;
+﻿using Twilight.Domain;
 
-    public record class RandomizeResult(PlayerRandomizeItemResult[] Players, string[] UnselectedFactions) { }
+namespace TwilightRandom;
+
+    public record class RandomizeResult(PlayerRandomizeItemResult[] Players, Faction[] UnselectedFactions) { }
     
-    public record class PlayerRandomizeItemResult(string PlayerName, string Color, string[] Factions) { }
+    public record class PlayerRandomizeItemResult(string PlayerName, PlayerColor Color, Faction[] Factions) { }

@@ -1,0 +1,101 @@
+﻿@page
+@model Twilight.Web.Pages.GameViewModel
+@{
+    ViewData["Title"] = "Страница игры";
+}
+<div class="text-center">
+    <h1 class="display-4">Страница игры @Model.Game.Name</h1>
+</div>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Игрок</th>
+            <th>Цвет</th>
+            <th>Фракция</th>
+            @if (!Model.AllSelected)
+            {
+                <th>Выбрано?</th>
+            }
+            @if (Model.AdminMode)
+            {
+                <th>Ссылка</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var slot in Model.Game.PlayerSlots)
+        {
+            <tr>
+                <td>
+                    @slot.Player.Name
+                    @if (slot.Id == Model.SlotId)
+                    {
+                        <br>
+                        <i> (это вы)</span>
+                    }
+                </td>
+                <td>@slot.Color</td>
+                <td>
+                    @foreach (var faction in slot.PossibleFactions)
+                    {
+                        @if (slot.Id == Model.SlotId && slot.SelectedFaction is null)
+                        {
+                                <form asp-page="PlayerSelect">
+                                    <input type="hidden" name="SlotSlug" value="@slot.Slug" />
+                                    <input type="hidden" name="GameId" value="@Model.Game.Id" />
+                                    <input type="hidden" name="FactionId" value="@faction.Id" />
+                                    <input type="submit" value="Выбрать" />
+                                    @faction.ToString()
+                            </form>
+                        }
+                        else if (slot.SelectedFaction is not null && slot.SelectedFaction != faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
+                        {
+                            <s>@faction.ToString()</s> <br />
+                        }
+                        else if (slot.SelectedFaction == faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
+                        {
+                            <b>@faction.ToString()</b> <br />
+                        }
+                        else
+                        {
+                            @faction.ToString() <br/>
+                        }
+                    }
+
+                    @if (slot.SelectedFaction is not null && !slot.PossibleFactions.Contains(slot.SelectedFaction)  && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
+                    {
+                        <b>@slot.SelectedFaction.ToString()</b> 
+                    }
+                    @if (slot.Id == Model.SlotId && slot.SelectedFaction is null)
+                    {
+                        <form asp-page="PlayerSelect">
+                            <input type="hidden" name="SlotSlug" value="@slot.Slug" />
+                            <input type="hidden" name="GameId" value="@Model.Game.Id" />
+                            <input type="submit" value="Выбрать" />
+                            Случайная
+                        </form>
+                    }
+                </td>
+                @if (!Model.AllSelected)
+                {
+                    <td>
+                        @if (slot.SelectedFaction is null)
+                        {
+                            <span>??</span>
+                        }
+                        else
+                        {
+                            <span>!!</spane>
+                        }
+                    </td>
+                }
+                @if (Model.AdminMode)
+                {
+                    <td><a asp-page="GameView" asp-route-Id="@Model.Game.Id" asp-route-SlotSlug="@slot.Slug">ссылка</a></td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

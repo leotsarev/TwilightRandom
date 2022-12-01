@@ -1,25 +1,26 @@
 ﻿using MoreLinq;
+using Twilight.Domain;
 
 namespace TwilightRandom;
 
 public class Randomiser
 {
     private HashSet<string> Players { get; }
-    private HashSet<string> Colors { get; }
-    private HashSet<string> Factions { get; }
+    private HashSet<PlayerColor> Colors { get; }
+    private HashSet<Faction> Factions { get; }
 
-    public Randomiser(GameRequest gameModel)
+    public Randomiser(GameRequest gameModel, IEnumerable<Faction> factions)
     {
         Players = new HashSet<string>(gameModel.Players ?? Array.Empty<string>());
-        Colors = new HashSet<string>(DefaultData.Colors);
-        Factions = new HashSet<string>(DefaultData.Factions);
+        Colors = new HashSet<PlayerColor>(Enum.GetValues<PlayerColor>());
+        Factions = new HashSet<Faction>(factions);
     }
 
     private class PlayerRandomizeCell
     {
         public required string PlayerName { get; set; }
-        public string? Color { get; set; }
-        public string[]? Factions { get; set; }
+        public PlayerColor? Color { get; set; }
+        public Faction[]? Factions { get; set; }
     }
 
 
@@ -35,8 +36,8 @@ public class Randomiser
 
         if (playersDict.TryGetValue("@Germesina", out var germesina))
         {
-            germesina.Color = "Черный";
-            Colors.Remove(germesina.Color);
+            germesina.Color = SelectAndRemoveColorForImpaired();
+
         }
 
         foreach (var result in playersDict.Values.Where(r => r.Color is null))
@@ -49,15 +50,21 @@ public class Randomiser
             result.Factions = new[] { SelectAndRemoveRandom(Factions), SelectAndRemoveRandom(Factions) };
         }
 
-        var items = playersDict.Values.Shuffle().Select(x => new PlayerRandomizeItemResult(x.PlayerName, x.Color!, x.Factions!)).ToArray();
+        var items = playersDict.Values.Shuffle().Select(x => new PlayerRandomizeItemResult(x.PlayerName, x.Color!.Value, x.Factions!)).ToArray();
         return new RandomizeResult(items, Factions.ToArray());
     }
 
-    private static string SelectAndRemoveRandom(HashSet<string> set)
+    private PlayerColor SelectAndRemoveColorForImpaired()
+    {
+        var black = PlayerColor.Black;
+        return Colors.Remove(black) ? black : SelectAndRemoveRandom(Colors);
+    }
+
+    private static T SelectAndRemoveRandom<T>(HashSet<T> set)
     {
         var idx = Random.Shared.Next(0, set.Count);
         var selected = set.ElementAt(idx);
         set.Remove(selected);
-        return selected.Replace(" ", "&nbsp;");
+        return selected;
     }
 }

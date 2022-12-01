@@ -1,0 +1,19 @@
+﻿@page
+@model Twilight.Web.Pages.GameCreateModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Создание игры</h1>
+</div>
+
+<form method="post">
+    Название игры: 
+    <br /> <input asp-for="Name" />
+    <br/>
+    Список игроков (на отдельной строке): 
+    <br /><textarea asp-for="PlayerList"> </textarea>
+    <br />
+    <input type="submit" title="Создать"/>
+</form>

@@ -11,7 +11,7 @@ namespace Twilight.Console
             WriteLine("|--|--|--|--|");
             foreach (var x in result.Players)
             {
-                WriteLine($"|{x.PlayerName}|{x.Color}|{string.Join("<br />", x.Factions)}|- |");
+                WriteLine($"|{x.PlayerName}|{x.Color}|{string.Join("<br />", x.Factions.Select(f => f.ToString()))}|- |");
             }
 
             WriteLine("Невыбранные фракции");

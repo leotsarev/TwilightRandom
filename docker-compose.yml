@@ -1,0 +1,15 @@
+version: '3'
+services:
+  db:
+    image: 'postgres:13.2'
+    container_name: twilight-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "5432:5432"
+
+    environment:
+      - POSTGRES_DB=twilight
+      - POSTGRES_USER=twilightuser
+      - POSTGRES_PASSWORD=twilightpass
+      - POSTGRES_HOST_AUTH_METHOD=md5

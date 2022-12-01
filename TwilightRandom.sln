@@ -3,7 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwilightRandom", "TwilightRandom\TwilightRandom.csproj", "{4F2CB4F0-AB12-4834-ADF1-DA31CFD94129}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwilightRandom", "TwilightRandom\TwilightRandom.csproj", "{4F2CB4F0-AB12-4834-ADF1-DA31CFD94129}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twilight.Web", "Twilight.Web\Twilight.Web.csproj", "{D664753C-61BA-4F76-8505-09F216947004}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twilight.Domain", "Twilight.Domain\Twilight.Domain.csproj", "{481DBBFD-42A9-47AA-A520-A9E7383630EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{075B48A7-72BB-4604-8614-DB6E1C54FDF1}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twilight.Console", "Twilight.Console\Twilight.Console.csproj", "{D31B7545-19A5-4386-9FD0-D9F86C75CDE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +26,18 @@ Global
 		{4F2CB4F0-AB12-4834-ADF1-DA31CFD94129}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F2CB4F0-AB12-4834-ADF1-DA31CFD94129}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F2CB4F0-AB12-4834-ADF1-DA31CFD94129}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D664753C-61BA-4F76-8505-09F216947004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D664753C-61BA-4F76-8505-09F216947004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D664753C-61BA-4F76-8505-09F216947004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D664753C-61BA-4F76-8505-09F216947004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481DBBFD-42A9-47AA-A520-A9E7383630EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481DBBFD-42A9-47AA-A520-A9E7383630EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481DBBFD-42A9-47AA-A520-A9E7383630EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481DBBFD-42A9-47AA-A520-A9E7383630EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D31B7545-19A5-4386-9FD0-D9F86C75CDE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D31B7545-19A5-4386-9FD0-D9F86C75CDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D31B7545-19A5-4386-9FD0-D9F86C75CDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D31B7545-19A5-4386-9FD0-D9F86C75CDE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
