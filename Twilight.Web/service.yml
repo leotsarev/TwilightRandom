@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: twilight
+spec:
+  selector:
+    app.kubernetes.io/name: twilight
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

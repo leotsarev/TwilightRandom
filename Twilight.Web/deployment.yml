@@ -1,0 +1,27 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twilight
+  labels:
+    app.kubernetes.io/name: twilight
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: twilight
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: twilight
+    spec:
+      containers:
+      - name: twilight
+        image: cr.yandex/crp3fr717nr1rn78qeij/twilight-web:1.0.2
+        ports:
+        - containerPort: 80
+        env:
+        - name: ConnectionStrings__TwilightDb
+          valueFrom:
+            secretKeyRef:
+              name: twilight-conn 
+              key: ConnectionStrings__TwilightDb

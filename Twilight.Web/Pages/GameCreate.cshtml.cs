@@ -18,8 +18,10 @@ public class GameCreateModel : PageModel
     private DbContext DbContext { get; }
 
     [Required]
+    [BindProperty]
     public string Name { get; set; } = "";
     [Required, DataType(DataType.MultilineText)]
+    [BindProperty]
     public string PlayerList { get; set; } = "";
 
     public void OnGet()
