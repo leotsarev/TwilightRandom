@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
-using Tomlyn;
-
-namespace TwilightRandom;
+﻿using TwilightRandom;
+using static System.Console;
+namespace Twilight.Console;
 
 internal class Program
 {
@@ -11,8 +10,8 @@ internal class Program
 
         if (gameModel is null)
         {
-            Console.WriteLine("Укажите игроков!..");
-            Console.ReadLine();
+            WriteLine("Укажите игроков!..");
+            ReadLine();
             return;
         }
 
@@ -21,8 +20,6 @@ internal class Program
 
         ConsolePrinter.PrintResult(result);
 
-        Console.ReadLine();
+        ReadLine();
     }
-
-
 }

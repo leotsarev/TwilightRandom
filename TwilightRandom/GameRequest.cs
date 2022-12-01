@@ -1,6 +1,6 @@
 ﻿namespace TwilightRandom;
 
-internal class GameRequest
+public class GameRequest
 {
     public string[]? Players { get; set; }
 }

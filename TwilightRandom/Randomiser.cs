@@ -2,7 +2,7 @@
 
 namespace TwilightRandom;
 
-internal class Randomiser
+public class Randomiser
 {
     private HashSet<string> Players { get; }
     private HashSet<string> Colors { get; }

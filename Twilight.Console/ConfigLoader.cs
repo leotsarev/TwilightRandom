@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using Tomlyn;
+using TwilightRandom;
 
-namespace TwilightRandom;
+namespace Twilight.Console;
 
 internal class ConfigLoader
 {
