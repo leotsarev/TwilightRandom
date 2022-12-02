@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{075B48A7-72BB-4604-8614-DB6E1C54FDF1}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twilight.Console", "Twilight.Console\Twilight.Console.csproj", "{D31B7545-19A5-4386-9FD0-D9F86C75CDE2}"
