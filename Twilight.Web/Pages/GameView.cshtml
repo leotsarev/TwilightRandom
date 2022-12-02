@@ -18,7 +18,7 @@
             {
                 <th>Выбрано?</th>
             }
-            @if (Model.AdminMode)
+            @if (Model.AdminMode && !Model.AllSelected)
             {
                 <th>Ссылка</th>
             }
@@ -29,13 +29,11 @@
         {
             <tr>
                 <td>
-                    @slot.Player.Name
-                    <br />                                        
                     <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" stroke="black" fill="@slot.Color"
-                        width="20" heigth="20">
-                          <circle cx="8" cy="8" r="5" />
+                     width="20" heigth="20">
+                        <circle cx="8" cy="8" r="5" />
                     </svg>
-                    @slot.Color
+                    @slot.Player.Name
                     @if (slot.Id == Model.SlotId)
                     {
                         <br>
@@ -96,7 +94,7 @@
                         }
                     </td>
                 }
-                @if (Model.AdminMode)
+                @if (Model.AdminMode && !Model.AllSelected)
                 {
                     <td><a asp-page="GameView" asp-route-Id="@Model.Game.Id" asp-route-SlotSlug="@slot.Slug">ссылка</a></td>
                 }
