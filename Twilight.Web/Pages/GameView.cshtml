@@ -1,4 +1,5 @@
 ﻿@page
+@using Components
 @model Twilight.Web.Pages.GameViewModel
 @{
     ViewData["Title"] = "Страница игры";
@@ -12,7 +13,6 @@
     <thead>
         <tr>
             <th>Игрок</th>
-            <th>Цвет</th>
             <th>Фракция</th>
             @if (!Model.AllSelected)
             {
@@ -30,13 +30,18 @@
             <tr>
                 <td>
                     @slot.Player.Name
+                    <br />                                        
+                    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" stroke="black" fill="@slot.Color"
+                        width="20" heigth="20">
+                          <circle cx="8" cy="8" r="5" />
+                    </svg>
+                    @slot.Color
                     @if (slot.Id == Model.SlotId)
                     {
                         <br>
                         <i> (это вы)</i>
                     }
                 </td>
-                <td>@slot.Color</td>
                 <td>
                     @foreach (var faction in slot.PossibleFactions)
                     {
@@ -47,26 +52,26 @@
                                     <input type="hidden" name="GameId" value="@Model.Game.Id" />
                                     <input type="hidden" name="FactionId" value="@faction.Id" />
                                     <input type="submit" value="Выбрать" />
-                                    @faction.ToString()
+                                    <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction"/>
                             </form>
                         }
                         else if (slot.SelectedFaction is not null && slot.SelectedFaction != faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
                         {
-                            <s>@faction.ToString()</s> <br />
+                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-StrikedOut="true"/>
                         }
                         else if (slot.SelectedFaction == faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
                         {
-                            <b>@faction.ToString()</b> <br />
+                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-Selected="true"/>
                         }
                         else
                         {
-                            @faction.ToString() <br/>
+                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" />
                         }
                     }
 
                     @if (slot.SelectedFaction is not null && !slot.PossibleFactions.Contains(slot.SelectedFaction)  && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
                     {
-                        <b>@slot.SelectedFaction.ToString()</b> 
+                        <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@slot.SelectedFaction" param-Selected="true"/>
                     }
                     @if (slot.Id == Model.SlotId && slot.SelectedFaction is null)
                     {
@@ -99,3 +104,11 @@
         }
     </tbody>
 </table>
+
+<h3>Невыбранные фракции</h3>
+<ul>
+@foreach (var faction in Model.UnUsedFactions)
+{
+    <li><component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" /> </li>
+}
+</ul>

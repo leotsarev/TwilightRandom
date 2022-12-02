@@ -1,0 +1,26 @@
+﻿@using Twilight.Domain
+<img src="/img/faction-icons/@(Faction.Name.Replace(" ","")).webp" style="max-height:2em; width:2em"/>&nbsp;
+@if (Selected)
+{
+   <b>@Faction.ToString()</b>
+}
+else if (StrikedOut)
+{
+    <s>@Faction.ToString()</s>
+}
+else
+{
+    @Faction.ToString()
+}
+ [<a href="@Faction.WikiLink">вики</a>]
+<br />
+@code {
+    [Parameter()]
+    public Faction Faction {get;set;}
+
+    [Parameter()]
+    public bool StrikedOut {get;set;}
+
+    [Parameter()]
+    public bool Selected {get;set;}
+}

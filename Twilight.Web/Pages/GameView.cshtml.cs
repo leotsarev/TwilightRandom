@@ -1,17 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Composition.Convention;
+using Microsoft.EntityFrameworkCore;
 using Twilight.Domain;
+using Twilight.Web.Migrations;
 
 namespace Twilight.Web.Pages
 {
     public class GameViewModel : PageModel
     {
         private readonly GameRepository gameRepository;
+        private readonly DbContext dbContext;
 
-        public GameViewModel(GameRepository gameRepository)
+        public GameViewModel(GameRepository gameRepository, DbContext dbContext)
         {
             this.gameRepository = gameRepository;
+            this.dbContext = dbContext;
         }
         [BindProperty(SupportsGet = true)]
         public string? Slug { get; set; }
@@ -29,6 +32,8 @@ namespace Twilight.Web.Pages
         public Game Game { get; set; }
 
         public bool AllSelected { get; set; }
+
+        public List<Domain.Faction> UnUsedFactions { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -49,6 +54,17 @@ namespace Twilight.Web.Pages
             }
 
             AllSelected = game.PlayerSlots.All(p => p.SelectedFaction is not null);
+
+            var possibleFactions = await dbContext.Factions.ToListAsync();
+
+            if (AllSelected || AdminMode)
+            {
+                UnUsedFactions = possibleFactions.ExceptAlreadyUsedIn(game).ToList();
+            }
+            else
+            {
+                UnUsedFactions = possibleFactions.ExceptAlreadyUsedInForUser(game, SlotId).ToList();
+            }
 
             return Page();
 

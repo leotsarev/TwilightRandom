@@ -5,6 +5,7 @@ public class Faction
     public int Id { get; set; }
     public required string Name { get; set; }
     public required string? RussianName { get; set; }
+    public required string WikiLink { get; set; }
 
     public override string ToString()
     {

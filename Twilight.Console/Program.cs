@@ -15,7 +15,7 @@ internal class Program
             return;
         }
 
-        var randomizer = new Randomiser(gameModel);
+        var randomizer = new Randomiser(gameModel, DefaultData.Factions);
         var result = randomizer.Randomize();
 
         ConsolePrinter.PrintResult(result);

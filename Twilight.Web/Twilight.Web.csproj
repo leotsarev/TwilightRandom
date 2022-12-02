@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>bbacf78c-a735-4e06-8f5d-a398d4a6a6db</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<ContainerImageTag>1.1.0</ContainerImageTag>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Twilight.Domain\Twilight.Domain.csproj" />
     <ProjectReference Include="..\TwilightRandom\TwilightRandom.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\faction-icons\" />
   </ItemGroup>
 
 </Project>

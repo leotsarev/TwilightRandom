@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MoreLinq;
+using Twilight.Domain;
 
 namespace Twilight.Web.Pages
 {
@@ -36,10 +37,7 @@ namespace Twilight.Web.Pages
             if (faction is null)
             {
                 var possibleFactions = await dbContext.Factions.ToListAsync();
-                faction = possibleFactions
-                    .Except(game.PlayerSlots.SelectMany(f => f.PossibleFactions))
-                    .Except(game.PlayerSlots.Select(f => f.SelectedFaction))
-                    .Shuffle().First();
+                faction = possibleFactions.ExceptAlreadyUsedIn(game).Shuffle().First();
             }
 
             player.SelectedFaction = faction;
