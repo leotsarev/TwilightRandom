@@ -13,7 +13,7 @@ public class DefaultData
                 new () {Id = 5, Name = "The Emirates of Hacan", RussianName = "Хаканские Эмираты", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Emirates_of_Hacan" },
                 new () {Id = 6, Name = "The Federation of Sol", RussianName = "Федерация Сол", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Federation_of_Sol" },
                 new () {Id = 7, Name = "The Ghosts of Creuss", RussianName = "Призраки Креусса", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Ghosts_of_Creuss" },
-                new () {Id = 8, Name = "The L1Z1X Mindnet", RussianName = "Психосеть Л131КС", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Mentak_Coalition" },
+                new () {Id = 8, Name = "The L1Z1X Mindnet", RussianName = "Психосеть Л131КС", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_L1Z1X_Mindnet" },
                 new () {Id = 9, Name = "The Mentak Coalition", RussianName = "Коалиция Ментака", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Mentak_Coalition" },
                 new () {Id = 10, Name = "The Naalu Collective", RussianName = "Клубок Наалу", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Naalu_Collective" },
                 new () {Id = 11, Name = "The Nekro Virus", RussianName = "Некровирус", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Nekro_Virus" },
