@@ -12,6 +12,14 @@ public class Randomiser
     public Randomiser(GameRequest gameModel, IEnumerable<Faction> factions)
     {
         Players = new HashSet<string>(gameModel.Players ?? Array.Empty<string>());
+        if (Players.Count > 8)
+        {
+            throw new Exception("Too many players");
+        }
+        if (Players.Count < 2)
+        {
+            throw new Exception("Too little players");
+        }
         Colors = new HashSet<PlayerColor>(Enum.GetValues<PlayerColor>());
         Factions = new HashSet<Faction>(factions);
     }
@@ -26,15 +34,8 @@ public class Randomiser
         public bool ChoosePlace { get; set; }
     }
 
-
-
     public RandomizeResult Randomize()
     {
-        while (Players.Count < 8)
-        {
-            Players.Add($"Запасной&nbsp;игрок&nbsp;{Players.Count + 1}");
-        }
-
         var players = Players.Select(player => new PlayerRandomizeCell { PlayerName = player }).ToArray();
 
         if (players.SingleOrDefault(p => p.PlayerName == "@Germesina") is PlayerRandomizeCell germesina)

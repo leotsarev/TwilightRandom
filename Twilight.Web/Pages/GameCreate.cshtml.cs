@@ -24,6 +24,9 @@ public class GameCreateModel : PageModel
     [Required, DataType(DataType.MultilineText)]
     [BindProperty]
     public string PlayerList { get; set; } = "";
+    
+    [BindProperty]
+    public bool AddToEightPlayers { get; set; } = true;
 
     public async Task OnGet()
     {
@@ -72,9 +75,13 @@ public class GameCreateModel : PageModel
     private GameRequest ConvertToGameRequest()
     {
         var playerList = PlayerList.Split("\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
-        while (playerList.Count < 8)
+
+        if (AddToEightPlayers)
         {
-            playerList.Add($"Запасной игрок {playerList.Count + 1}");
+            while (playerList.Count < 8)
+            {
+                playerList.Add($"Запасной игрок {playerList.Count + 1}");
+            }
         }
 
         return new GameRequest

@@ -1,4 +1,5 @@
-﻿using TwilightRandom;
+﻿using Twilight.Domain;
+using TwilightRandom;
 using static System.Console;
 namespace Twilight.Console;
 
@@ -14,6 +15,11 @@ internal class Program
             ReadLine();
             return;
         }
+
+        //while (Players.Count < 8)
+        //{
+        //    Players.Add($"Запасной&nbsp;игрок&nbsp;{Players.Count + 1}");
+        //}
 
         var randomizer = new Randomiser(gameModel, DefaultData.Factions);
         var result = randomizer.Randomize();
