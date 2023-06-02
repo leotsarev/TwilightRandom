@@ -1,4 +1,5 @@
 ﻿@page
+@using Twilight.Domain;
 @model Twilight.Web.Pages.GameCreateModel
 @{
     ViewData["Title"] = "Home page";
@@ -13,7 +14,8 @@
     <br /> <input asp-for="Name" />
     <br/>
     Список игроков (на отдельной строке): 
-    <br /><textarea asp-for="PlayerList"> </textarea>
+    <br /><textarea asp-for="PlayerList" rows="8" cols="20"> </textarea>
     <br /><input asp-for="AddToEightPlayers" id="check8"/> <label for="check8">Дополнить список игроков до восьми</label>
+    <br /><label>Режим альянса:</label><select asp-for="AllianceMode" asp-items="Html.GetEnumSelectList<AllianceMode>()" id="allianceMode"></select>
     <br /><input type="submit" value="Создать" />
 </form>

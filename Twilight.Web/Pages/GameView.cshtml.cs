@@ -33,6 +33,8 @@ namespace Twilight.Web.Pages
 
         public bool AllSelected { get; set; }
 
+        public bool Alliances { get; set; }
+
         public List<Domain.Faction> UnUsedFactions { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -54,6 +56,7 @@ namespace Twilight.Web.Pages
             }
 
             AllSelected = game.PlayerSlots.All(p => p.SelectedFaction is not null);
+            Alliances = game.PlayerSlots.Any(p => p.AlliedWith is not null);
 
             var possibleFactions = await dbContext.Factions.ToListAsync();
 

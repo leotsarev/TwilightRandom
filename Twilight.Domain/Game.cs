@@ -29,4 +29,6 @@ public class PlayerSlot
 
     public required bool Speaker { get; set;}
     public required bool ChoosePlace { get; set; }
+
+    public required string? AlliedWith { get; set; }
 }

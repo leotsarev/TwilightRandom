@@ -21,7 +21,7 @@ internal class Program
         //    Players.Add($"Запасной&nbsp;игрок&nbsp;{Players.Count + 1}");
         //}
 
-        var randomizer = new Randomiser(gameModel, DefaultData.Factions);
+        var randomizer = new Randomiser(gameModel, DefaultData.Factions, AllianceMode.None);
         var result = randomizer.Randomize();
 
         ConsolePrinter.PrintResult(result);

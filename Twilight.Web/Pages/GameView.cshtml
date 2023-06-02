@@ -34,6 +34,10 @@
                         <circle cx="8" cy="8" r="5" />
                     </svg>
                     @slot.Player.Name
+                    @if (slot.AlliedWith is not null)
+                    {
+                        <i>(союзник: @slot.AlliedWith)</i>
+                    }
                     @if (slot.Speaker)
                     {
                         <img src="~/img/speaker.webp" alt="Speaker">

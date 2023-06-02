@@ -28,12 +28,15 @@ public class GameCreateModel : PageModel
     [BindProperty]
     public bool AddToEightPlayers { get; set; } = true;
 
+    [BindProperty]
+    public AllianceMode AllianceMode { get; set; } = AllianceMode.None;
+
     public async Task OnGet()
     {
         var lastGame = await GameRepository.LoadLastGameOrDefault();
         if (lastGame is not null)
         {
-            PlayerList = string.Join('\n', lastGame.PlayerSlots.Select(ps => ps.Player.Name));
+            PlayerList = string.Join('\n', lastGame.PlayerSlots.Where(ps => !ps.Player.Name.StartsWith("Запасной")).Select(ps => ps.Player.Name));
         }
     }
 
@@ -51,7 +54,7 @@ public class GameCreateModel : PageModel
 
         var gameRequest = ConvertToGameRequest();
 
-        var randomizer = new Randomiser(gameRequest, await DbContext.Factions.ToListAsync());
+        var randomizer = new Randomiser(gameRequest, await DbContext.Factions.ToListAsync(), AllianceMode);
         var result = randomizer.Randomize();
 
         foreach (var res in result.Players)
@@ -101,6 +104,7 @@ public class GameCreateModel : PageModel
             PossibleFactions = res.Factions.ToList(),
             ChoosePlace = res.ChoosePlace,
             Speaker = res.Speaker,
+            AlliedWith = res.AlliedWtih,
         };
     }
 
