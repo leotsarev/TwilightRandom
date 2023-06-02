@@ -34,9 +34,17 @@
                         <circle cx="8" cy="8" r="5" />
                     </svg>
                     @slot.Player.Name
+                    @if (slot.Speaker)
+                    {
+                        <img src="~/img/speaker.webp" alt="Speaker">
+                    }
+                    @if (slot.ChoosePlace)
+                    {
+                        <b><img src="~/img/chair.svg" alt="Выбирает место" title="Выбирает место" width="30" height="30"/></b>
+                    }
                     @if (slot.Id == Model.SlotId)
                     {
-                        <br>
+                        <br />
                         <i> (это вы)</i>
                     }
                 </td>

@@ -18,9 +18,12 @@ public class Randomiser
 
     private class PlayerRandomizeCell
     {
-        public required string PlayerName { get; set; }
+        public required string PlayerName { get; init; }
         public PlayerColor? Color { get; set; }
         public Faction[]? Factions { get; set; }
+
+        public bool Speaker { get; set; }
+        public bool ChoosePlace { get; set; }
     }
 
 
@@ -32,25 +35,39 @@ public class Randomiser
             Players.Add($"Запасной&nbsp;игрок&nbsp;{Players.Count + 1}");
         }
 
-        var playersDict = Players.ToDictionary(player => player, player => new PlayerRandomizeCell { PlayerName = player });
+        var players = Players.Select(player => new PlayerRandomizeCell { PlayerName = player }).ToArray();
 
-        if (playersDict.TryGetValue("@Germesina", out var germesina))
+        if (players.SingleOrDefault(p => p.PlayerName == "@Germesina") is PlayerRandomizeCell germesina)
         {
             germesina.Color = SelectAndRemoveColorForImpaired();
-
         }
 
-        foreach (var result in playersDict.Values.Where(r => r.Color is null))
+        foreach (var result in players.Where(r => r.Color is null))
         {
             result.Color = SelectAndRemoveRandom(Colors);
         }
 
-        foreach (var result in playersDict.Values.Where(r => r.Factions is null))
+        foreach (var result in players)
         {
             result.Factions = new[] { SelectAndRemoveRandom(Factions), SelectAndRemoveRandom(Factions) };
         }
 
-        var items = playersDict.Values.Shuffle().Select(x => new PlayerRandomizeItemResult(x.PlayerName, x.Color!.Value, x.Factions!)).ToArray();
+        var speakerNum = Random.Shared.Next(0, Players.Count);
+
+        players[speakerNum].Speaker = true;
+
+        var chooserNum = Random.Shared.Next(0, Players.Count - 1);
+
+        if (chooserNum >= speakerNum)
+        {
+            chooserNum++;
+        }
+
+        players[chooserNum].ChoosePlace = true;
+
+        var items = players.Shuffle()
+            .Select(cell => new PlayerRandomizeItemResult(cell.PlayerName, cell.Color!.Value, cell.Factions!, cell.Speaker, cell.ChoosePlace))
+            .ToArray();
         return new RandomizeResult(items, Factions.ToArray());
     }
 

@@ -82,6 +82,8 @@ public class GameCreateModel : PageModel
             Slug = SlugGenerator.Generate(20),
             SelectedFaction = null,
             PossibleFactions = res.Factions.ToList(),
+            ChoosePlace = res.ChoosePlace,
+            Speaker = res.Speaker,
         };
     }
 

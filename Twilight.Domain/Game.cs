@@ -26,4 +26,7 @@ public class PlayerSlot
 
     [MaxLength(20)]
     public required string Slug { get; set; }
+
+    public required bool Speaker { get; set;}
+    public required bool ChoosePlace { get; set; }
 }
