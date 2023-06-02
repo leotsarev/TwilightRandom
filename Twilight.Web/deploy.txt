@@ -1,5 +1,0 @@
-dotnet publish --os linux --arch x64 -c Release /p:PublishProfile=DefaultContainer
-docker tag twilight-web:1.2.2 cr.yandex/crp3fr717nr1rn78qeij/twilight-web:1.2.2
-docker push cr.yandex/crp3fr717nr1rn78qeij/twilight-web:1.2.2
-ฯฮฬลอ฿าÜ ย DEPLOYMENT.YML
-kubectl apply -f .\deployment.yml -n twilight

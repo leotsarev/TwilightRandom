@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: twilight
-        image: cr.yandex/crp3fr717nr1rn78qeij/twilight-web:1.2.2
+        image: cr.yandex/crp3fr717nr1rn78qeij/twilight-web:1.2.3
         ports:
         - containerPort: 80
         env:
