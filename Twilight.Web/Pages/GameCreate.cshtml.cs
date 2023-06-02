@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using System.ComponentModel.DataAnnotations;
 using Twilight.Domain;
 using TwilightRandom;
@@ -10,12 +9,14 @@ namespace Twilight.Web.Pages;
 
 public class GameCreateModel : PageModel
 {
-    public GameCreateModel(DbContext dbContext)
+    public GameCreateModel(DbContext dbContext, GameRepository gameRepository)
     {
         DbContext = dbContext;
+        GameRepository = gameRepository;
     }
 
     private DbContext DbContext { get; }
+    private GameRepository GameRepository { get; }
 
     [Required]
     [BindProperty]
@@ -24,12 +25,21 @@ public class GameCreateModel : PageModel
     [BindProperty]
     public string PlayerList { get; set; } = "";
 
-    public void OnGet()
+    public async Task OnGet()
     {
+        var lastGame = await GameRepository.LoadLastGameOrDefault();
+        if (lastGame is not null)
+        {
+            PlayerList = string.Join('\n', lastGame.PlayerSlots.Select(ps => ps.Player.Name));
+        }
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
         var game = new Game
         {
             Name = Name,
