@@ -14,8 +14,15 @@ namespace Twilight.Web
                 options => options.UseNpgsql(builder.Configuration.GetConnectionString("TwilightDb")));
 
             builder.Services.AddTransient<GameRepository>();
+            builder.Services.AddHealthChecks();
 
             var app = builder.Build();
+
+            using (var Scope = app.Services.CreateScope())
+            {
+                var context = Scope.ServiceProvider.GetRequiredService<DbContext>();
+                context.Database.Migrate();
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -29,9 +36,10 @@ namespace Twilight.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.MapHealthChecks("/health/live");
             app.UseAuthorization();
 
+            
             app.MapRazorPages();
 
             app.Run();

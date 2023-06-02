@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: twilight
-        image: cr.yandex/crp3fr717nr1rn78qeij/twilight-web:1.1.1
+        image: cr.yandex/crp3fr717nr1rn78qeij/twilight-web:1.2.2
         ports:
         - containerPort: 80
         env:
@@ -25,3 +25,9 @@ spec:
             secretKeyRef:
               name: twilight-conn 
               key: ConnectionStrings__TwilightDb
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
