@@ -3,8 +3,6 @@
     public enum AllianceMode
     {
         None,
-        Together,
-        Opposite,
-        Random
+        Enabled,
     }
 }

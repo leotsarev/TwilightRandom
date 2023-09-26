@@ -90,25 +90,10 @@ public class Randomiser
         {
             case AllianceMode.None:
                 break;
-            case AllianceMode.Together:
-                for (int i = 0; i < players.Length; i += 2)
-                {
-                    MakeAllied(i, i + 1);
-                }
-                break;
-            case AllianceMode.Opposite:
+            case AllianceMode.Enabled:
                 for (int i = 0; i < players.Length / 2; i++)
                 {
                     MakeAllied(i, (i + players.Length / 2) % players.Length);
-                }
-                break;
-            case AllianceMode.Random:
-                var set = new HashSet<int>(Enumerable.Range(0, Players.Count));
-                while (set.Count > 0)
-                {
-                    var firstIdx = SelectAndRemoveRandom(set);
-                    var secondIdx = SelectAndRemoveRandom(set);
-                    MakeAllied(firstIdx, secondIdx);
                 }
                 break;
             default:
