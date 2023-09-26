@@ -29,8 +29,5 @@
     <ProjectReference Include="..\TwilightRandom\TwilightRandom.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\img\faction-icons\" />
-  </ItemGroup>
 
 </Project>

@@ -62,26 +62,26 @@
                                     <input type="hidden" name="GameId" value="@Model.Game.Id" />
                                     <input type="hidden" name="FactionId" value="@faction.Id" />
                                     <input type="submit" value="Выбрать" />
-                                    <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction"/>
+                                <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-ShowAllianceCard="Model.Alliances" />
                             </form>
                         }
                         else if (slot.SelectedFaction is not null && slot.SelectedFaction != faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
                         {
-                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-StrikedOut="true"/>
+                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-StrikedOut="true" param-ShowAllianceCard="Model.Alliances" />
                         }
                         else if (slot.SelectedFaction == faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
                         {
-                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-Selected="true"/>
+                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-Selected="true" param-ShowAllianceCard="Model.Alliances" />
                         }
                         else
                         {
-                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" />
+                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-ShowAllianceCard="Model.Alliances" />
                         }
                     }
 
                     @if (slot.SelectedFaction is not null && !slot.PossibleFactions.Contains(slot.SelectedFaction)  && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
                     {
-                        <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@slot.SelectedFaction" param-Selected="true"/>
+                        <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@slot.SelectedFaction" param-Selected="true" param-ShowAllianceCard="Model.Alliances" />
                     }
                     @if (slot.Id == Model.SlotId && slot.SelectedFaction is null)
                     {
@@ -119,6 +119,6 @@
 <ul>
 @foreach (var faction in Model.UnUsedFactions)
 {
-    <li><component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" /> </li>
+        <li><component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-ShowAllianceCard="Model.Alliances" /> </li>
 }
 </ul>
