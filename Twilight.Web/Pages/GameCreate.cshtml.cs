@@ -71,7 +71,7 @@ public class GameCreateModel : PageModel
 
         await DbContext.SaveChangesAsync();
 
-        return RedirectToPage("GameView", new { game.Slug });
+        return RedirectToPage("GameView", new { game.Slug, game.Id });
 
     }
 
