@@ -7,6 +7,8 @@
     <UserSecretsId>bbacf78c-a735-4e06-8f5d-a398d4a6a6db</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<ContainerRuntimeIdentifier>linux-x64</ContainerRuntimeIdentifier>
+	<ContainerRegistry>cr.yandex</ContainerRegistry>
+	<ContainerRepository>crp3fr717nr1rn78qeij/twilight-web</ContainerRepository>
   </PropertyGroup>
 
   <ItemGroup>
