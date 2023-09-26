@@ -23,7 +23,7 @@ namespace Twilight.Web.Pages
         public int? FactionId { get; set; }
 
         [BindProperty()]
-        public string SlotSlug { get; set; }
+        public string? SlotSlug { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {

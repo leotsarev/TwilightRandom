@@ -29,13 +29,13 @@ namespace Twilight.Web.Pages
 
         public int? SlotId { get; set; }
 
-        public Game Game { get; set; }
+        public Game Game { get; set; } = null!;
 
         public bool AllSelected { get; set; }
 
         public bool Alliances { get; set; }
 
-        public List<Domain.Faction> UnUsedFactions { get; set; }
+        public List<Domain.Faction> UnUsedFactions { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync()
         {
