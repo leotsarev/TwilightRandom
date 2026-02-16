@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Twilight.Console/Twilight.Console.csproj" />
+  <Project Path="Twilight.Domain/Twilight.Domain.csproj" />
+  <Project Path="Twilight.Web/Twilight.Web.csproj" />
+  <Project Path="TwilightRandom/TwilightRandom.csproj" />
+</Solution>
