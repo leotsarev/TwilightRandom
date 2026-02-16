@@ -1,6 +1,4 @@
-﻿using Twilight.Domain;
-
-namespace TwilightRandom;
+﻿namespace Twilight.Domain;
 
 public class DefaultData
 {

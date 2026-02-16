@@ -6,7 +6,9 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="Twilight.Console/Twilight.Console.csproj" />
+  <Project Path="Twilight.Dal/Twilight.Dal.csproj" Id="28c00f91-19ca-47f4-9238-f3f235f904bc" />
   <Project Path="Twilight.Domain/Twilight.Domain.csproj" />
+  <Project Path="Twilight.Migrator/Twilight.Migrator.csproj" />
   <Project Path="Twilight.Web/Twilight.Web.csproj" />
   <Project Path="TwilightRandom/TwilightRandom.csproj" />
 </Solution>

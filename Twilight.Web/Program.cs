@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+using Twilight.Dal;
 
 namespace Twilight.Web
 {
@@ -10,19 +10,12 @@ namespace Twilight.Web
 
             // Add services to the container.
             builder.Services.AddRazorPages();
-            builder.Services.AddDbContext<DbContext>(
-                options => options.UseNpgsql(builder.Configuration.GetConnectionString("TwilightDb")));
 
-            builder.Services.AddTransient<GameRepository>();
+            builder.Services.AddTwilightDal(builder.Configuration);
+
             builder.Services.AddHealthChecks();
 
             var app = builder.Build();
-
-            using (var Scope = app.Services.CreateScope())
-            {
-                var context = Scope.ServiceProvider.GetRequiredService<DbContext>();
-                context.Database.Migrate();
-            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -39,7 +32,7 @@ namespace Twilight.Web
             app.MapHealthChecks("/health/live");
             app.UseAuthorization();
 
-            
+
             app.MapRazorPages();
 
             app.Run();

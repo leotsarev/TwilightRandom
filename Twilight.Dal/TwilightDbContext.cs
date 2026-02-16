@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Twilight.Domain;
-using TwilightRandom;
 
-namespace Twilight.Web;
+namespace Twilight.Dal;
 
-public class DbContext : Microsoft.EntityFrameworkCore.DbContext
+public class TwilightDbContext(DbContextOptions<TwilightDbContext> options) : Microsoft.EntityFrameworkCore.DbContext(options)
 {
-    public DbContext(DbContextOptions<DbContext> options) : base(options)
-    {
-
-    }
     public DbSet<Game> Games { get; set; }
     public DbSet<Player> Players { get; set; }
 

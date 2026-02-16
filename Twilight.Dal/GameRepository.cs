@@ -1,19 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using System.Linq.Expressions;
 using Twilight.Domain;
 
-namespace Twilight.Web
+namespace Twilight.Dal
 {
-    public class GameRepository
+    public class GameRepository(TwilightDbContext dbContext) : IGameRepository
     {
-        private readonly DbContext dbContext;
-
-        public GameRepository(DbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
         private async Task<Game?> LoadGameByPredicate(Expression<Func<Game, bool>> predicate)
         {
             return await GameSelector().FirstOrDefaultAsync(predicate);

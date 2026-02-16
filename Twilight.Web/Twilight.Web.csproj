@@ -9,13 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" >
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
-	<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+	
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Twilight.Dal\Twilight.Dal.csproj" />
     <ProjectReference Include="..\Twilight.Domain\Twilight.Domain.csproj" />
     <ProjectReference Include="..\TwilightRandom\TwilightRandom.csproj" />
   </ItemGroup>

@@ -1,7 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+using Twilight.Dal;
 using Twilight.Domain;
 using TwilightRandom;
 
@@ -9,14 +10,14 @@ namespace Twilight.Web.Pages;
 
 public class GameCreateModel : PageModel
 {
-    public GameCreateModel(DbContext dbContext, GameRepository gameRepository)
+    public GameCreateModel(TwilightDbContext dbContext, IGameRepository gameRepository)
     {
         DbContext = dbContext;
         GameRepository = gameRepository;
     }
 
-    private DbContext DbContext { get; }
-    private GameRepository GameRepository { get; }
+    private TwilightDbContext DbContext { get; }
+    private IGameRepository GameRepository { get; }
 
     [Required]
     [BindProperty]
@@ -24,7 +25,7 @@ public class GameCreateModel : PageModel
     [Required, DataType(DataType.MultilineText)]
     [BindProperty]
     public string PlayerList { get; set; } = "";
-    
+
     [BindProperty]
     public bool AddToEightPlayers { get; set; } = true;
 

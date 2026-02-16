@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Twilight.Dal;
 using Twilight.Domain;
 
 namespace Twilight.Web.Pages
 {
     public class PlayerSelectModel : PageModel
     {
-        private readonly GameRepository gameRepository;
-        private readonly DbContext dbContext;
+        private readonly IGameRepository gameRepository;
+        private readonly TwilightDbContext dbContext;
 
-        public PlayerSelectModel(GameRepository gameRepository, DbContext dbContext)
+        public PlayerSelectModel(IGameRepository gameRepository, TwilightDbContext dbContext)
         {
             this.gameRepository = gameRepository;
             this.dbContext = dbContext;
