@@ -1,6 +1,6 @@
 ﻿namespace Twilight.Domain;
 
-public class Faction 
+public class Faction
 {
     public int Id { get; set; }
     public required string Name { get; set; }
