@@ -1,0 +1,22 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+  <PropertyGroup>
+	  <TargetFramework>net10.0</TargetFramework>
+	  <Nullable>enable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <NoWarn>${NoWarn};CS1591</NoWarn>
+
+	  <UseArtifactsOutput>true</UseArtifactsOutput>
+	  <!-- Версия контейнера совпадает с версией приложения -->
+	  <ContainerVersion>$(Version)</ContainerVersion>
+
+	  <!-- Всегда публикуем с двумя тегами: latest и версия -->
+	  <ContainerImageTags>latest;$(Version)</ContainerImageTags>
+
+
+  </PropertyGroup>
+	<ItemGroup>
+		<GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.11" />
+	</ItemGroup>
+</Project>
