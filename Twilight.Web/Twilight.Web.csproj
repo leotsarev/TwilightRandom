@@ -6,7 +6,7 @@
 	<ContainerRuntimeIdentifier>linux-x64</ContainerRuntimeIdentifier>
 	<RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
 	<ContainerRegistry>cr.yandex</ContainerRegistry>
-	<ContainerRepository>crp3fr717nr1rn78qeij/twilight-web</ContainerRepository>
+	<ContainerRepository>crpais914lemf2m60cja/twilight-web</ContainerRepository>
   </PropertyGroup>
 
   <ItemGroup>
