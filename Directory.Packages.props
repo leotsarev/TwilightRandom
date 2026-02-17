@@ -8,7 +8,7 @@
 		<PackageVersion Include="Tomlyn" Version="0.20.0" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.20" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3" />
-		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
+		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
 		<PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
 		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3" />
