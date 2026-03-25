@@ -5,7 +5,7 @@
 	<CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageVersion Include="Tomlyn" Version="0.20.0" />
+		<PackageVersion Include="Tomlyn" Version="1.2.0" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.20" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3" />
 		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
