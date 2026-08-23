@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: override-me
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- migration-job.yaml
+
+# Реальные значения подставляет CI (deploy-common.yml) через отдельный
+# secretGenerator с behavior: replace в оверлее manifests/twilight.
+# Этот файл-заглушка нужен только для локальной сборки kustomize.
+secretGenerator:
+- name: twilight-secret
+  envs:
+  - twilight-secret.env

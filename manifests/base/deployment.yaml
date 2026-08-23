@@ -1,4 +1,4 @@
-﻿apiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: twilight
@@ -16,15 +16,13 @@ spec:
     spec:
       containers:
       - name: twilight
-        image: cr.yandex/crp3fr717nr1rn78qeij/twilight-web:1.2.6
+        image: twilight-web
         ports:
         - containerPort: 80
-        env:
-        - name: ConnectionStrings__TwilightDb
-          valueFrom:
-            secretKeyRef:
-              name: twilight-conn 
-              key: ConnectionStrings__TwilightDb
+        envFrom:
+        - secretRef:
+            name: twilight-secret
+            optional: false
         livenessProbe:
           httpGet:
             path: /health/live

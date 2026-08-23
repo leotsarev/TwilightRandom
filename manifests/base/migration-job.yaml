@@ -1,0 +1,28 @@
+# Job неизменяем в k8s: CI (deploy-common.yml) делает `kubectl replace --force`
+# перед каждым деплоем. При ручном apply нужно сначала удалить предыдущий job
+# (kubectl delete job twilight-migrator -n twilight).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: twilight-migrator
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 300
+  template:
+    spec:
+      containers:
+        - name: twilight-migrator
+          image: twilight-migrator
+          envFrom:
+            - secretRef:
+                name: twilight-secret
+                optional: false
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 1000m
+              ephemeral-storage: 30Mi
+            requests:
+              memory: 128Mi
+              cpu: 250m
+      restartPolicy: Never
