@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: twilight-migrator
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 300
+  template:
+    spec:
+      containers:
+        - name: twilight-migrator
+          image: twilight-migrator
+          env:
+            - name: ConnectionStrings__TwilightDb
+              valueFrom:
+                secretKeyRef:
+                  name: twilight-conn
+                  key: ConnectionStrings__TwilightDb
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      restartPolicy: Never

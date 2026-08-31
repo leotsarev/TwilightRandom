@@ -1,0 +1,9 @@
+resources:
+  - ../base
+
+namespace: twilight
+
+# Careful. Contains name of the environment, used for kubectl apply --prune
+labels:
+  - pairs:
+      managed-by-kustomize-twilight: "true"
