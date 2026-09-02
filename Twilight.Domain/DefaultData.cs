@@ -28,5 +28,10 @@ public class DefaultData
                 new () {Id = 22, Name = "The Nomad", RussianName = "Кочевник", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Nomad" },
                 new () {Id = 23, Name = "The Titans of Ul", RussianName = "Титаны Ула", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Titans_of_Ul" },
                 new () {Id = 24, Name = "The Vuil'Raith Cabal", RussianName = "Кабал вуил’райт", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Vuil%27Raith_Cabal" },
+                new () {Id = 25, Name = "Last Bastion", RussianName = "Последний Оплот", WikiLink = "https://twilight-imperium.fandom.com/wiki/Last_Bastion" },
+                new () {Id = 26, Name = "The Ral Nel Consortium", RussianName = "Консорциум Рал-Нел", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Ral_Nel_Consortium" },
+                new () {Id = 27, Name = "The Crimson Rebellion", RussianName = "Багровый Мятеж", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Crimson_Rebellion" },
+                new () {Id = 28, Name = "The Deepwrought Scholarate", RussianName = "Школа Витой Бездны", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Deepwrought_Scholarate" },
+                new () {Id = 29, Name = "The Firmament / The Obsidian", RussianName = "Небесная Твердь / Обсидиан", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Firmament_%2F_The_Obsidian" },
             };
 }
