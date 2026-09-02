@@ -1,0 +1,12 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  - migration-job.yaml
+
+namespace: override-me
+
+secretGenerator:
+  - name: twilight-conn
+    envs:
+      - twilight-conn.secret.env

@@ -1,0 +1,23 @@
+name: Deploy to prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployVersion:
+        description: Docker image to deploy (like 1.2.6)
+        required: true
+        default: latest
+
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    permissions: read-all
+    uses: ./.github/workflows/deploy-reusable.yml
+    with:
+      deployVersion: ${{ github.event.inputs.deployVersion }}
+      environment: twilight
+      environment_url: https://twilight.tsarevs.ru
+    secrets: inherit

@@ -1,0 +1,22 @@
+name: Deploy to prod automatically after build
+
+on:
+  workflow_run:
+    workflows: [Build and publish]
+    types: [completed]
+    branches: [master]
+
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions: read-all
+    uses: ./.github/workflows/deploy-reusable.yml
+    with:
+      deployVersion: latest
+      environment: twilight
+      environment_url: https://twilight.tsarevs.ru
+    secrets: inherit
