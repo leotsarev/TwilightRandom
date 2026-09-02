@@ -32,12 +32,16 @@ public class GameCreateModel : PageModel
     [BindProperty]
     public AllianceMode AllianceMode { get; set; } = AllianceMode.None;
 
+    [Range(2, 3)]
+    [BindProperty]
+    public int FactionsPerPlayer { get; set; } = 2;
+
     public async Task OnGet()
     {
         var lastGame = await GameRepository.LoadLastGameOrDefault();
         if (lastGame is not null)
         {
-            PlayerList = string.Join('\n', lastGame.PlayerSlots.Where(ps => !ps.Player.Name.StartsWith("Запасной")).Select(ps => ps.Player.Name));
+            PlayerList = string.Join('\n', lastGame.PlayerSlots.Where(ps => !ps.Player.Name.StartsWith("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")).Select(ps => ps.Player.Name));
         }
     }
 
@@ -84,13 +88,14 @@ public class GameCreateModel : PageModel
         {
             while (playerList.Count < 8)
             {
-                playerList.Add($"Запасной игрок {playerList.Count + 1}");
+                playerList.Add($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ {playerList.Count + 1}");
             }
         }
 
         return new GameRequest
         {
             Players = playerList.ToArray(),
+            FactionsPerPlayer = FactionsPerPlayer,
         };
     }
 
