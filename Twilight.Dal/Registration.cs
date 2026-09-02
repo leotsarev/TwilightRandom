@@ -9,8 +9,8 @@ namespace Twilight.Dal
     {
         public static void AddTwilightDal(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<DbContext>(
-    options => options.UseNpgsql(configuration.GetConnectionString("TwilightDb")));
+            services.AddDbContext<TwilightDbContext>(
+                options => options.UseNpgsql(configuration.GetConnectionString("TwilightDb")));
 
             services.AddTransient<IGameRepository, GameRepository>();
         }
