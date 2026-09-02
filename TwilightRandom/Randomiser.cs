@@ -8,6 +8,7 @@ public class Randomiser
     private HashSet<PlayerColor> Colors { get; }
     private HashSet<Faction> Factions { get; }
     public AllianceMode Alliance { get; }
+    private int FactionsPerPlayer { get; }
 
     public Randomiser(GameRequest gameModel, IEnumerable<Faction> factions, AllianceMode alliance)
     {
@@ -28,6 +29,16 @@ public class Randomiser
         Colors = new HashSet<PlayerColor>(Enum.GetValues<PlayerColor>());
         Factions = new HashSet<Faction>(factions);
         Alliance = alliance;
+
+        FactionsPerPlayer = gameModel.FactionsPerPlayer;
+        if (FactionsPerPlayer < 2 || FactionsPerPlayer > 3)
+        {
+            throw new Exception("Factions per player must be 2 or 3");
+        }
+        if (Players.Count * FactionsPerPlayer > Factions.Count)
+        {
+            throw new Exception("Not enough factions for requested factions per player");
+        }
     }
 
     private class PlayerRandomizeCell
@@ -57,7 +68,7 @@ public class Randomiser
 
         foreach (var result in players)
         {
-            result.Factions = new[] { SelectAndRemoveRandom(Factions), SelectAndRemoveRandom(Factions) };
+            result.Factions = Enumerable.Range(0, FactionsPerPlayer).Select(_ => SelectAndRemoveRandom(Factions)).ToArray();
         }
 
         var speakerNum = Random.Shared.Next(0, Players.Count);
