@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Twilight.Web;
+using Twilight.Dal;
 
 #nullable disable
 
 namespace Twilight.Web.Migrations
 {
-    [DbContext(typeof(DbContext))]
+    [DbContext(typeof(TwilightDbContext))]
     [Migration("20221202070121_WikiLink")]
     partial class WikiLink
     {
