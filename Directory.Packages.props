@@ -6,6 +6,7 @@
   </PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="Tomlyn" Version="2.10.1" />
+		<PackageVersion Include="JoinRpg.Common.WebInfrastructure" Version="2026.8.0" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.20" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.11" />
 		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.11" />
