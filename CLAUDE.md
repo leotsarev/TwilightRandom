@@ -32,7 +32,7 @@ dotnet test -c Release --logger trx --results-directory ./TestResults
 
 Postgres для локальной разработки:
 ```
-docker-compose up -d db      # postgres:13.2, db=twilight, user=twilightuser/twilightpass, порт 5432
+docker-compose up -d db      # postgres:15.18, db=twilight, user=twilightuser/twilightpass, порт 5432
 ```
 
 Запуск веб-приложения или консольного приложения: `dotnet run --project Twilight.Web` / `--project Twilight.Console`.
