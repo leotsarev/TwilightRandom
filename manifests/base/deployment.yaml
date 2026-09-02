@@ -31,7 +31,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: twilight-conn
-                  key: ConnectionStrings__TwilightDb
+                  key: CONNECTIONSTRINGS__TWILIGHTDB
           livenessProbe:
             httpGet:
               path: /health/live
