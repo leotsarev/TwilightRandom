@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 <ItemGroup>
+	<PackageReference Include="JoinRpg.Common.WebInfrastructure" />
 	<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
 </ItemGroup>
 <ItemGroup>

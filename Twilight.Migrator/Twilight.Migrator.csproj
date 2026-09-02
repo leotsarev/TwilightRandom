@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JoinRpg.Common.WebInfrastructure" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
   </ItemGroup>
 
