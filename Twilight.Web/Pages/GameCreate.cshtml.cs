@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using JoinRpg.Common.PrimitiveTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -64,17 +65,22 @@ public class GameCreateModel : PageModel
             CreatedByPlayer = creator,
         };
 
-        var gameRequest = ConvertToGameRequest();
+        var playerInputs = ParsePlayerList();
+        var gameRequest = ConvertToGameRequest(playerInputs);
 
         var randomizer = new Randomiser(gameRequest, await DbContext.Factions.ToListAsync(), AllianceMode);
         var result = randomizer.Randomize();
 
+        var joinrpgUserIdsByName = playerInputs
+            .Where(p => p.JoinrpgUserId is not null)
+            .ToDictionary(p => p.Name, p => p.JoinrpgUserId!);
+
         foreach (var res in result.Players)
         {
             var playerName = res.PlayerName;
+            joinrpgUserIdsByName.TryGetValue(playerName, out var joinrpgUserId);
 
-            var playerFromDb = await DbContext.Players.Where(p => p.Name == playerName).FirstOrDefaultAsync();
-            var player = playerFromDb ?? CreatePlayer(playerName);
+            var player = await ResolvePlayer(playerName, joinrpgUserId);
 
             game.PlayerSlots.Add(CreatePlayerSlot(player, res));
         }
@@ -87,24 +93,63 @@ public class GameCreateModel : PageModel
 
     }
 
-    private GameRequest ConvertToGameRequest()
+    private List<PlayerInput> ParsePlayerList()
     {
-        var playerList = PlayerList.Split("\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
+        var lines = PlayerList.Split("\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var playerList = lines.Select(ParsePlayerLine).ToList();
 
         if (AddToEightPlayers)
         {
             while (playerList.Count < 8)
             {
-                playerList.Add($"Запасной игрок {playerList.Count + 1}");
+                playerList.Add(new PlayerInput($"Запасной игрок {playerList.Count + 1}", null));
             }
         }
 
+        return playerList;
+    }
+
+    private static PlayerInput ParsePlayerLine(string line)
+    {
+        var parts = line.Split('#', 2, StringSplitOptions.TrimEntries);
+        if (parts.Length == 2 && int.TryParse(parts[1], out var joinrpgUserId))
+        {
+            return new PlayerInput(parts[0], new UserIdentification(joinrpgUserId));
+        }
+
+        return new PlayerInput(line, null);
+    }
+
+    private GameRequest ConvertToGameRequest(List<PlayerInput> playerList)
+    {
         return new GameRequest
         {
-            Players = playerList.ToArray(),
+            Players = playerList.Select(p => p.Name).ToArray(),
             FactionsPerPlayer = FactionsPerPlayer,
         };
     }
+
+    private async Task<Player> ResolvePlayer(string playerName, UserIdentification? joinrpgUserId)
+    {
+        if (joinrpgUserId is not null)
+        {
+            var playerByJoinrpgUserId = await DbContext.Players.FirstOrDefaultAsync(p => p.JoinrpgUserId == joinrpgUserId);
+            if (playerByJoinrpgUserId is not null)
+            {
+                return playerByJoinrpgUserId;
+            }
+        }
+
+        var playerByName = await DbContext.Players.Where(p => p.Name == playerName).FirstOrDefaultAsync();
+        if (playerByName is not null)
+        {
+            return playerByName;
+        }
+
+        return CreatePlayer(playerName, joinrpgUserId);
+    }
+
+    private record PlayerInput(string Name, UserIdentification? JoinrpgUserId);
 
     private PlayerSlot CreatePlayerSlot(Player player, PlayerRandomizeItemResult res)
     {
@@ -121,12 +166,13 @@ public class GameCreateModel : PageModel
         };
     }
 
-    private Player CreatePlayer(string playerName)
+    private static Player CreatePlayer(string playerName, UserIdentification? joinrpgUserId)
     {
         return new Player()
         {
             Name = playerName,
             IsVisualImpaired = false,
+            JoinrpgUserId = joinrpgUserId,
         };
     }
 }
