@@ -13,7 +13,7 @@
     Название игры: 
     <br /> <input asp-for="Name" />
     <br/>
-    Список игроков (на отдельной строке): 
+    Список игроков (на отдельной строке, можно указать joinrpg id через "#", например "Вася #12345"):
     <br /><textarea asp-for="PlayerList" rows="8" cols="20"> </textarea>
     <br /><input asp-for="AddToEightPlayers" id="check8"/> <label for="check8">Дополнить список игроков до восьми</label>
     <br /><label>Режим альянса:</label><select asp-for="AllianceMode" asp-items="Html.GetEnumSelectList<AllianceMode>()" id="allianceMode"></select>
