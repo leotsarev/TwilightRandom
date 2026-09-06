@@ -1,0 +1,22 @@
+@page
+@model Twilight.Web.Pages.GameDeleteModel
+@{
+    ViewData["Title"] = "Удаление игры";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Удалить игру @Model.Game.Name?</h1>
+    @if (Model.CanDelete)
+    {
+        <p>Игра и данные всех игроков в ней будут удалены безвозвратно.</p>
+        <form method="post">
+            <input type="submit" class="btn btn-danger" value="Удалить" />
+            <a asp-page="GameView" asp-route-Id="@Model.Game.Id" class="btn btn-secondary">Отмена</a>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-warning">Нельзя удалить игру: хотя бы один игрок уже выбрал фракцию.</div>
+        <a asp-page="GameView" asp-route-Id="@Model.Game.Id" class="btn btn-secondary">Назад</a>
+    }
+</div>
