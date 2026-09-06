@@ -13,13 +13,6 @@ namespace Twilight.Dal
             services.AddJoinEfCoreDbContext<TwilightDbContext>(configuration, environment, "TwilightDb");
 
             services.AddTransient<IGameRepository, GameRepository>();
-
-            services.AddOpenIddict()
-                .AddCore(options =>
-                {
-                    options.UseEntityFrameworkCore()
-                        .UseDbContext<TwilightDbContext>();
-                });
         }
     }
 }

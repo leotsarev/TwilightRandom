@@ -1,4 +1,5 @@
 using JoinRpg.Common.WebInfrastructure;
+using JoinRpg.Common.WebInfrastructure.Auth;
 using Twilight.Dal;
 using Twilight.Web.Auth;
 
@@ -17,7 +18,8 @@ namespace Twilight.Web
 
             builder.Services.AddTwilightDal(builder.Configuration, builder.Environment);
 
-            builder.Services.AddJoinRpgAuthentication(builder.Configuration);
+            builder.Services.AddJoinRpgAuthentication<TwilightDbContext>(builder.Configuration);
+            builder.Services.AddScoped<IJoinUserLoginHandler, TwilightUserLoginHandler>();
 
             builder.Services.AddJoinWebPlatform(
                 configuration: builder.Configuration,
