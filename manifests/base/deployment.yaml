@@ -32,6 +32,11 @@ spec:
                 secretKeyRef:
                   name: twilight-conn
                   key: CONNECTIONSTRINGS__TWILIGHTDB
+            - name: ConnectionStrings__DataProtection
+              valueFrom:
+                secretKeyRef:
+                  name: twilight-conn
+                  key: CONNECTIONSTRINGS__DATAPROTECTION
             - name: JoinRpgOidc__ClientSecret
               valueFrom:
                 secretKeyRef:
