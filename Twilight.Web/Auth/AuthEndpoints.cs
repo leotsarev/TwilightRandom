@@ -2,13 +2,14 @@ using System.Security.Claims;
 using JoinRpg.Common.PrimitiveTypes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using OpenIddict.Client.AspNetCore;
-using Twilight.Dal;
-using Twilight.Domain;
 
 namespace Twilight.Web.Auth;
 
+/// <summary>
+/// Общая часть логина через id.joinrpg.ru (OpenIddict): маппинг /login, /signin-joinrpg, /logout.
+/// Приложение-специфичное сохранение пользователя и claims — в <see cref="IJoinUserLoginHandler"/>.
+/// </summary>
 internal static class AuthEndpoints
 {
     internal static void MapAuthEndpoints(this IEndpointRouteBuilder endpoints)
@@ -22,7 +23,11 @@ internal static class AuthEndpoints
             return Results.Challenge(properties, [OpenIddictClientAspNetCoreDefaults.AuthenticationScheme]);
         });
 
-        endpoints.MapGet("/signin-joinrpg", async (HttpContext context, TwilightDbContext dbContext, ILoggerFactory loggerFactory) =>
+        endpoints.MapGet("/signin-joinrpg", async (
+            HttpContext context,
+            IJoinUserLoginHandler loginHandler,
+            ILoggerFactory loggerFactory,
+            CancellationToken cancellationToken) =>
         {
             var logger = loggerFactory.CreateLogger("Auth");
 
@@ -35,43 +40,24 @@ internal static class AuthEndpoints
                     statusCode: StatusCodes.Status401Unauthorized);
             }
 
-            var sub = result.Principal?.FindFirstValue("sub");
+            var externalPrincipal = result.Principal!;
+
+            var sub = externalPrincipal.FindFirstValue("sub");
             if (sub is null || !UserIdentification.TryParse(sub, provider: null, out var userId))
             {
                 logger.LogWarning("Failed to extract user ID from claims. sub={Sub}, claims=[{Claims}]",
-                    sub, string.Join(", ", result.Principal?.Claims.Select(c => $"{c.Type}={c.Value}") ?? []));
+                    sub, string.Join(", ", externalPrincipal.Claims.Select(c => $"{c.Type}={c.Value}")));
                 return Results.Problem(
                     detail: $"Could not extract numeric user ID from 'sub' claim (got: {sub})",
                     statusCode: StatusCodes.Status401Unauthorized);
             }
 
-            var name = result.Principal?.FindFirstValue("name") ?? $"Игрок {userId}";
-            var avatarUrl = result.Principal?.FindFirstValue("picture");
-
-            var player = await dbContext.Players.FirstOrDefaultAsync(p => p.JoinrpgUserId == userId);
-            if (player is null)
-            {
-                player = new Player
-                {
-                    Name = name,
-                    JoinrpgUserId = userId,
-                    AvatarUrl = avatarUrl,
-                };
-                dbContext.Players.Add(player);
-            }
-            else
-            {
-                player.Name = name;
-                player.AvatarUrl = avatarUrl;
-            }
-
-            await dbContext.SaveChangesAsync();
-
             var claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier, userId.Value.ToString()),
-                new(ClaimTypes.Name, player.Name),
             };
+
+            await loginHandler.HandleLoginAsync(userId, externalPrincipal, claims, cancellationToken);
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await context.SignInAsync(

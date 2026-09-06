@@ -6,6 +6,8 @@ internal static class AuthRegistration
 {
     internal static void AddJoinRpgAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IJoinUserLoginHandler, TwilightUserLoginHandler>();
+
         services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
