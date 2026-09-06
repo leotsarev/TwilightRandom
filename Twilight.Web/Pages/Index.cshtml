@@ -10,3 +10,21 @@
        <li><a asp-page="GameCreate">Создание игры</a></li>
    </ul>
 </div>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <h2>Мои игры</h2>
+    @if (Model.MyGames.Count == 0)
+    {
+        <p>Вы пока не участвовали ни в одной игре.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var game in Model.MyGames)
+            {
+                <li><a asp-page="GameView" asp-route-Id="@game.Id">@game.Name</a></li>
+            }
+        </ul>
+    }
+}

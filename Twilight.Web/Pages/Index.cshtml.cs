@@ -1,20 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Twilight.Domain;
+using Twilight.Web.Auth;
 
 namespace Twilight.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly IGameRepository gameRepository;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(IGameRepository gameRepository)
         {
-            _logger = logger;
+            this.gameRepository = gameRepository;
         }
 
-        public void OnGet()
-        {
+        public List<Game> MyGames { get; set; } = new();
 
+        public async Task OnGetAsync()
+        {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                MyGames = await gameRepository.LoadGamesForPlayer(User.GetJoinrpgUserId());
+            }
         }
     }
 }

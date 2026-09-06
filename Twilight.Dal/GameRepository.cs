@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using JoinRpg.Common.PrimitiveTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Twilight.Domain;
@@ -27,5 +28,11 @@ namespace Twilight.Dal
         public Task<Game?> LoadGameById(int id) => LoadGameByPredicate(g => g.Id == id);
 
         public Task<Game?> LoadLastGameOrDefault() => GameSelector().OrderByDescending(g => g.Id).FirstOrDefaultAsync();
+
+        public Task<List<Game>> LoadGamesForPlayer(UserIdentification joinrpgUserId) =>
+            GameSelector()
+                .Where(g => g.PlayerSlots.Any(ps => ps.Player.JoinrpgUserId == joinrpgUserId))
+                .OrderByDescending(g => g.Id)
+                .ToListAsync();
     }
 }
