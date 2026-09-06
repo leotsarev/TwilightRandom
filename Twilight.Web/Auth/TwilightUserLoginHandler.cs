@@ -10,7 +10,7 @@ internal class TwilightUserLoginHandler(TwilightDbContext dbContext) : IJoinUser
 {
     public async Task HandleLoginAsync(UserIdentification userId, ClaimsPrincipal externalPrincipal, List<Claim> claims, CancellationToken cancellationToken)
     {
-        var name = externalPrincipal.FindFirstValue("name") ?? $"Игрок {userId}";
+        var name = externalPrincipal.FindFirstValue("preferred_username") ?? $"Игрок {userId}";
         var avatarUrl = externalPrincipal.FindFirstValue("picture");
 
         var player = await dbContext.Players.FirstOrDefaultAsync(p => p.JoinrpgUserId == userId, cancellationToken);
