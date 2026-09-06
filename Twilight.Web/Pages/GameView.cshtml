@@ -22,6 +22,10 @@
             _ => Model.Game.Status.ToString(),
         })</span>
     </p>
+    @if (Model.CanFinishGame && Model.Game.Status != GameStatus.Played)
+    {
+        <a asp-page="GameFinish" asp-route-Id="@Model.Game.Id" class="btn btn-primary">Игра прошла</a>
+    }
 </div>
 
 
@@ -73,6 +77,15 @@
                     {
                         <br />
                         <i> (это вы)</i>
+                    }
+                    @if (Model.Game.Status == GameStatus.Played && slot.Points is not null)
+                    {
+                        <br />
+                        <span>@slot.Points очков</span>
+                        @if (slot.IsWinner)
+                        {
+                            <span title="Победитель">🏆</span>
+                        }
                     }
                 </td>
                 <td>

@@ -8,6 +8,7 @@
             <th>Дата</th>
             <th>Статус</th>
             <th>Кем играл</th>
+            <th>Результат</th>
         </tr>
     </thead>
     <tbody>
@@ -36,6 +37,16 @@
                         else
                         {
                             <i>выбор ещё не завершён</i>
+                        }
+                    }
+                </td>
+                <td>
+                    @if (slot?.Points is not null)
+                    {
+                        <span>@slot.Points очков</span>
+                        @if (slot.IsWinner)
+                        {
+                            <span title="Победитель">🏆</span>
                         }
                     }
                 </td>
