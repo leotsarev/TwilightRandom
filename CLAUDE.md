@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## О проекте
 
-TwilightRandom — рандомизатор фракций/цветов/порядка хода для настольной игры «Сумерки Империи» (Twilight Imperium, по домашним правилам): каждый игрок получает две фракции на выбор. Решение на .NET 10: веб-приложение на Razor Pages, слой доступа к данным на Postgres и отдельная консольная версия.
+TwilightRandom — рандомизатор фракций/цветов/порядка хода для настольной игры «Сумерки Империи» (Twilight Imperium, по домашним правилам): каждый игрок получает две фракции на выбор. Решение на .NET 10: веб-приложение на Razor Pages и слой доступа к данным на Postgres.
 
 ## Структура решения
 
@@ -13,9 +13,8 @@ TwilightRandom — рандомизатор фракций/цветов/поря
 - `Twilight.Dal/` — доступ к данным через EF Core (`TwilightDbContext`) и Npgsql, `GameRepository`, миграции в `Migrations/`. `Registration.AddTwilightDal(services, configuration)` подключает `DbContext` по строке подключения `TwilightDb`.
 - `Twilight.Web/` — основное деплоимое приложение: ASP.NET Core Razor Pages, health-check на `/health/live`, использует `AddTwilightDal`. Здесь же манифесты Kubernetes (`deployment.yml`, `service.yml`, `ingress.yml`) и `build.ps1`.
 - `Twilight.Migrator/` — отдельный воркер, который применяет EF Core миграции при старте (`MigrationsLauncher`, `IMigratorService`/`MigrateEfCoreHostService<TwilightDbContext>`); собирается в отдельный контейнер и запускается перед `Twilight.Web` (или вместе с ним) как шаг деплоя.
-- `Twilight.Console/` — старая консольная версия: читает игроков из `twinlight_players.ini` через `ConfigLoader` и печатает результат в консоль вместо сохранения в БД.
 
-Поток данных: `Randomiser` (из `TwilightRandom`) принимает `GameRequest` + список `Faction` + `AllianceMode` и возвращает `RandomizeResult`; `Twilight.Web` и `Twilight.Console` — это два разных интерфейса над одним и тем же ядром алгоритма, при этом `Twilight.Web` дополнительно сохраняет результат через `Twilight.Dal`.
+Поток данных: `Randomiser` (из `TwilightRandom`) принимает `GameRequest` + список `Faction` + `AllianceMode` и возвращает `RandomizeResult`; `Twilight.Web` — интерфейс над этим ядром алгоритма, дополнительно сохраняющий результат через `Twilight.Dal`.
 
 Тестовых проектов в решении сейчас нет.
 
@@ -35,7 +34,7 @@ Postgres для локальной разработки:
 docker-compose up -d db      # postgres:15.18, db=twilight, user=twilightuser/twilightpass, порт 5432
 ```
 
-Запуск веб-приложения или консольного приложения: `dotnet run --project Twilight.Web` / `--project Twilight.Console`.
+Запуск веб-приложения: `dotnet run --project Twilight.Web`.
 
 ### Миграции EF Core
 
