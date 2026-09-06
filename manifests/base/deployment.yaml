@@ -32,6 +32,11 @@ spec:
                 secretKeyRef:
                   name: twilight-conn
                   key: CONNECTIONSTRINGS__TWILIGHTDB
+            - name: JoinRpgOidc__ClientSecret
+              valueFrom:
+                secretKeyRef:
+                  name: twilight-conn
+                  key: JOINRPGOIDC__CLIENTSECRET
           livenessProbe:
             httpGet:
               path: /health/live

@@ -1,5 +1,6 @@
 using JoinRpg.Common.WebInfrastructure;
 using Twilight.Dal;
+using Twilight.Web.Auth;
 
 namespace Twilight.Web
 {
@@ -15,6 +16,8 @@ namespace Twilight.Web
             builder.Services.AddRazorPages();
 
             builder.Services.AddTwilightDal(builder.Configuration, builder.Environment);
+
+            builder.Services.AddJoinRpgAuthentication(builder.Configuration);
 
             builder.Services.AddJoinWebPlatform(
                 configuration: builder.Configuration,
@@ -41,9 +44,11 @@ namespace Twilight.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapRazorPages();
+            app.MapAuthEndpoints();
             app.MapJoinHealthChecks();
 
             app.Run();

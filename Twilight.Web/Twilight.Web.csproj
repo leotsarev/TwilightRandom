@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <PackageReference Include="JoinRpg.Common.WebInfrastructure" />
+    <PackageReference Include="OpenIddict.Client.AspNetCore" />
+    <PackageReference Include="OpenIddict.Client.SystemNetHttp" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
