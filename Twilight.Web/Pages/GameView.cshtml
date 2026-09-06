@@ -49,7 +49,14 @@
                      width="20" heigth="20">
                         <circle cx="8" cy="8" r="5" />
                     </svg>
-                    @slot.Player.Name
+                    @if (slot.Player.JoinrpgUserId is not null)
+                    {
+                        <a href="/user/@slot.Player.JoinrpgUserId.Value">@slot.Player.Name</a>
+                    }
+                    else
+                    {
+                        @slot.Player.Name
+                    }
                     @if (slot.AlliedWith is not null)
                     {
                         <i>(союзник: @slot.AlliedWith)</i>

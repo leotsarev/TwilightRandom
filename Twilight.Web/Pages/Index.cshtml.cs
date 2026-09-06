@@ -1,3 +1,4 @@
+using JoinRpg.Common.PrimitiveTypes;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Twilight.Domain;
 using JoinRpg.Common.WebInfrastructure.Auth;
@@ -15,20 +16,15 @@ namespace Twilight.Web.Pages
 
         public List<Game> MyGames { get; set; } = new();
 
+        public UserIdentification? MyJoinrpgUserId { get; set; }
+
         public async Task OnGetAsync()
         {
             if (User.Identity?.IsAuthenticated == true)
             {
-                MyGames = await gameRepository.LoadGamesForPlayer(User.GetJoinrpgUserId());
+                MyJoinrpgUserId = User.GetJoinrpgUserId();
+                MyGames = await gameRepository.LoadGamesForPlayer(MyJoinrpgUserId!);
             }
-        }
-
-        public Faction? GetMyFaction(Game game)
-        {
-            var joinrpgUserId = User.GetJoinrpgUserId();
-            return game.PlayerSlots
-                .FirstOrDefault(ps => ps.Player.JoinrpgUserId == joinrpgUserId)
-                ?.SelectedFaction;
         }
     }
 }
