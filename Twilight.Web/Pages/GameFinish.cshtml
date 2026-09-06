@@ -1,0 +1,43 @@
+@page
+@model Twilight.Web.Pages.GameFinishModel
+@{
+    ViewData["Title"] = "Игра прошла";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Итоги игры @Model.Game.Name</h1>
+</div>
+
+@if (Model.Message is not null)
+{
+    <div class="alert alert-danger">@Model.Message</div>
+}
+
+<form method="post">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Игрок</th>
+                <th>Фракция</th>
+                <th>Очки</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var slot in Model.Game.PlayerSlots)
+            {
+                <tr>
+                    <td>
+                        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" stroke="black" fill="@slot.Color"
+                         width="20" heigth="20">
+                            <circle cx="8" cy="8" r="5" />
+                        </svg>
+                        @slot.Player.Name
+                    </td>
+                    <td>@slot.SelectedFaction</td>
+                    <td><input type="number" min="0" max="14" name="points[@slot.Id]" value="@slot.Points" required /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input type="submit" class="btn btn-primary" value="Завершить игру" />
+</form>

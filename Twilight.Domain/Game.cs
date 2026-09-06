@@ -37,4 +37,7 @@ public class PlayerSlot
     public required bool ChoosePlace { get; set; }
 
     public required string? AlliedWith { get; set; }
+
+    public int? Points { get; set; }
+    public bool IsWinner { get; set; }
 }

@@ -13,7 +13,7 @@ namespace Twilight.Dal
             return await GameSelector().FirstOrDefaultAsync(predicate);
         }
 
-        private IIncludableQueryable<Game, Player> GameSelector()
+        private IIncludableQueryable<Game, Player?> GameSelector()
         {
             return dbContext.Games
                             .Include(g => g.PlayerSlots)
@@ -21,7 +21,8 @@ namespace Twilight.Dal
                             .Include(g => g.PlayerSlots)
                             .ThenInclude(p => p.PossibleFactions)
                             .Include(g => g.PlayerSlots)
-                            .ThenInclude(p => p.Player);
+                            .ThenInclude(p => p.Player)
+                            .Include(g => g.CreatedByPlayer);
         }
 
         public Task<Game?> LoadGameBySlug(string slug) => LoadGameByPredicate(g => g.Slug == slug);

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Twilight.Dal;
 using Twilight.Domain;
+using Twilight.Web.Auth;
 using JoinRpg.Common.WebInfrastructure.Auth;
 
 namespace Twilight.Web.Pages
@@ -36,6 +37,8 @@ namespace Twilight.Web.Pages
 
         public bool Alliances { get; set; }
 
+        public bool CanFinishGame { get; set; }
+
         public List<Domain.Faction> UnUsedFactions { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync()
@@ -60,6 +63,7 @@ namespace Twilight.Web.Pages
 
             AllSelected = game.PlayerSlots.All(p => p.SelectedFaction is not null);
             Alliances = game.PlayerSlots.Any(p => p.AlliedWith is not null);
+            CanFinishGame = GameAuthorization.CanManage(game, currentUserId);
 
             var possibleFactions = await dbContext.Factions.ToListAsync();
 
