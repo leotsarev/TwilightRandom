@@ -23,7 +23,7 @@ namespace Twilight.Web
                 configuration: builder.Configuration,
                 environment: builder.Environment,
                 appName: "Twilight.Web",
-                dataProtectionConnectionStringName: "DataProtection",
+                dataProtectionConnectionStringName: "TwilightDb",
                 telemetryServiceNames: ["Twilight.Web"]);
 
             var app = builder.Build();

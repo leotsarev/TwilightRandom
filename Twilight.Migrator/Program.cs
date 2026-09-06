@@ -6,6 +6,6 @@ using Twilight.Dal;
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddMigrationsLauncher();
 builder.Services.RegisterMigrator<TwilightDbContext>(builder.Configuration, builder.Environment, "TwilightDb");
-builder.Services.RegisterMigrator<DataProtectionDbContext>(builder.Configuration, builder.Environment, "DataProtection");
+builder.Services.RegisterMigrator<DataProtectionDbContext>(builder.Configuration, builder.Environment, "TwilightDb");
 
 builder.Build().Run();
