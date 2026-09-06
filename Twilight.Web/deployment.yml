@@ -23,7 +23,7 @@ spec:
         - name: ConnectionStrings__TwilightDb
           valueFrom:
             secretKeyRef:
-              name: twilight-conn 
+              name: twilight-conn
               key: ConnectionStrings__TwilightDb
         livenessProbe:
           httpGet:
