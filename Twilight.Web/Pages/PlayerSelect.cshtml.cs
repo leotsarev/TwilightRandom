@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Twilight.Dal;
 using Twilight.Domain;
+using Twilight.Web.Auth;
 
 namespace Twilight.Web.Pages
 {
@@ -28,7 +29,8 @@ namespace Twilight.Web.Pages
         public async Task<IActionResult> OnPostAsync()
         {
             var game = await gameRepository.LoadGameById(GameId);
-            var player = game?.PlayerSlots.FirstOrDefault(s => s.Slug == SlotSlug);
+            var currentUserId = User.TryGetJoinrpgUserId();
+            var player = game?.PlayerSlots.FirstOrDefault(s => s.Slug == SlotSlug || (currentUserId is not null && s.Player.JoinrpgUserId == currentUserId));
             if (player is null || game is null)
             {
                 return RedirectToPage("GameCreate", new { Id = GameId });

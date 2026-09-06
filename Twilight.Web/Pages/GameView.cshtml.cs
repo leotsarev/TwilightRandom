@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Twilight.Dal;
 using Twilight.Domain;
+using Twilight.Web.Auth;
 
 namespace Twilight.Web.Pages
 {
@@ -47,9 +48,11 @@ namespace Twilight.Web.Pages
             }
             Game = game;
 
+            var currentUserId = User.TryGetJoinrpgUserId();
+
             foreach (var slot in game.PlayerSlots)
             {
-                if (slot.Slug == SlotSlug)
+                if (slot.Slug == SlotSlug || (currentUserId is not null && slot.Player.JoinrpgUserId == currentUserId))
                 {
                     SlotId = slot.Id;
                 }
