@@ -17,6 +17,7 @@ public class Game
 
     public DateOnly? Date { get; set; }
     public GameStatus Status { get; set; } = GameStatus.ChoosingSides;
+    public string? Notes { get; set; }
 }
 
 public class PlayerSlot
