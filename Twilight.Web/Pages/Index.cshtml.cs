@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Twilight.Domain;
-using Twilight.Web.Auth;
+using JoinRpg.Common.WebInfrastructure.Auth;
 
 namespace Twilight.Web.Pages
 {

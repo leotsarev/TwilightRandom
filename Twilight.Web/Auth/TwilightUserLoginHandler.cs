@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using JoinRpg.Common.PrimitiveTypes;
+using JoinRpg.Common.WebInfrastructure.Auth;
 using Microsoft.EntityFrameworkCore;
 using Twilight.Dal;
 using Twilight.Domain;
