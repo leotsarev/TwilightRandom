@@ -44,6 +44,11 @@ namespace Twilight.Web.Pages
 
             player.SelectedFaction = faction;
 
+            if (game.Status == GameStatus.ChoosingSides && game.PlayerSlots.All(p => p.SelectedFaction is not null))
+            {
+                game.Status = GameStatus.Planned;
+            }
+
             await dbContext.SaveChangesAsync();
 
             return RedirectToPage("GameView", new { Id = GameId, SlotSlug = player.Slug });

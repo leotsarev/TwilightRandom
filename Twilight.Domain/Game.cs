@@ -14,6 +14,9 @@ public class Game
 
     public int? CreatedByPlayerId { get; set; }
     public virtual Player? CreatedByPlayer { get; set; }
+
+    public DateOnly? Date { get; set; }
+    public GameStatus Status { get; set; } = GameStatus.ChoosingSides;
 }
 
 public class PlayerSlot

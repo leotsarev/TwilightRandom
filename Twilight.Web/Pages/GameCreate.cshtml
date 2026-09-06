@@ -1,5 +1,6 @@
 ﻿@page
 @using Twilight.Domain;
+@using JoinRpg.Common.WebComponents
 @model Twilight.Web.Pages.GameCreateModel
 @{
     ViewData["Title"] = "Home page";
@@ -10,8 +11,11 @@
 </div>
 
 <form method="post">
-    Название игры: 
+    Название игры:
     <br /> <input asp-for="Name" />
+    <br />
+    <label>Дата проведения:</label>
+    <component type="typeof(JoinRpgDatePicker)" render-mode="Static" param-Name='"Date"' param-Value="@Model.Date" />
     <br/>
     Список игроков (на отдельной строке, можно указать joinrpg id через "#", например "Вася #12345"):
     <br /><textarea asp-for="PlayerList" rows="8" cols="20"> </textarea>
