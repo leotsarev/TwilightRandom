@@ -20,11 +20,22 @@
     }
     else
     {
-        <ul>
-            @foreach (var game in Model.MyGames)
-            {
-                <li><a asp-page="GameView" asp-route-Id="@game.Id">@game.Name</a></li>
-            }
-        </ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Игра</th>
+                    <th>Кем я играл</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var game in Model.MyGames)
+                {
+                    <tr>
+                        <td><a asp-page="GameView" asp-route-Id="@game.Id">@game.Name</a></td>
+                        <td>@Model.GetMyFaction(game)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
 }
