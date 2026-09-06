@@ -4,4 +4,8 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="JoinRpg.Common.PrimitiveTypes" />
+  </ItemGroup>
+
 </Project>

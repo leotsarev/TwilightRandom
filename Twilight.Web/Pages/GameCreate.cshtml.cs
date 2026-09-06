@@ -1,13 +1,16 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Twilight.Dal;
 using Twilight.Domain;
+using Twilight.Web.Auth;
 using TwilightRandom;
 
 namespace Twilight.Web.Pages;
 
+[Authorize]
 public class GameCreateModel : PageModel
 {
     public GameCreateModel(TwilightDbContext dbContext, IGameRepository gameRepository)
@@ -51,10 +54,14 @@ public class GameCreateModel : PageModel
         {
             return Page();
         }
+        var creatorUserId = User.GetJoinrpgUserId();
+        var creator = await DbContext.Players.FirstOrDefaultAsync(p => p.JoinrpgUserId == creatorUserId);
+
         var game = new Game
         {
             Name = Name,
-            Slug = SlugGenerator.Generate(20)
+            Slug = SlugGenerator.Generate(20),
+            CreatedByPlayer = creator,
         };
 
         var gameRequest = ConvertToGameRequest();

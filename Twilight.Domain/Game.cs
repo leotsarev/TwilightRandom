@@ -11,6 +11,9 @@ public class Game
 
     [MaxLength(20)]
     public required string Slug { get; set; }
+
+    public int? CreatedByPlayerId { get; set; }
+    public virtual Player? CreatedByPlayer { get; set; }
 }
 
 public class PlayerSlot
