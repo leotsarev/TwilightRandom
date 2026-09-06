@@ -44,7 +44,7 @@ public class GameCreateModel : PageModel
         var lastGame = await GameRepository.LoadLastGameOrDefault();
         if (lastGame is not null)
         {
-            PlayerList = string.Join('\n', lastGame.PlayerSlots.Where(ps => !ps.Player.Name.StartsWith("��������")).Select(ps => ps.Player.Name));
+            PlayerList = string.Join('\n', lastGame.PlayerSlots.Where(ps => !ps.Player.Name.StartsWith("Запасной")).Select(ps => ps.Player.Name));
         }
     }
 
@@ -95,7 +95,7 @@ public class GameCreateModel : PageModel
         {
             while (playerList.Count < 8)
             {
-                playerList.Add($"�������� ����� {playerList.Count + 1}");
+                playerList.Add($"Запасной игрок {playerList.Count + 1}");
             }
         }
 
