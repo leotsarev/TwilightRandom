@@ -22,5 +22,13 @@ namespace Twilight.Web.Pages
                 MyGames = await gameRepository.LoadGamesForPlayer(User.GetJoinrpgUserId());
             }
         }
+
+        public Faction? GetMyFaction(Game game)
+        {
+            var joinrpgUserId = User.GetJoinrpgUserId();
+            return game.PlayerSlots
+                .FirstOrDefault(ps => ps.Player.JoinrpgUserId == joinrpgUserId)
+                ?.SelectedFaction;
+        }
     }
 }
