@@ -34,5 +34,8 @@ namespace Twilight.Dal
                 .Where(g => g.PlayerSlots.Any(ps => ps.Player.JoinrpgUserId == joinrpgUserId))
                 .OrderByDescending(g => g.Id)
                 .ToListAsync();
+
+        public Task<Player?> LoadPlayerByJoinrpgUserId(UserIdentification joinrpgUserId) =>
+            dbContext.Players.FirstOrDefaultAsync(p => p.JoinrpgUserId == joinrpgUserId);
     }
 }

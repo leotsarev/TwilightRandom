@@ -1,0 +1,26 @@
+@page "/user/{JoinrpgUserId:int}"
+@using Components
+@model Twilight.Web.Pages.PlayerViewModel
+@{
+    ViewData["Title"] = Model.Player.Name;
+}
+<div class="text-center">
+    <h1 class="display-4">
+        @if (Model.Player.AvatarUrl is not null)
+        {
+            <img src="@Model.Player.AvatarUrl" alt="" width="64" height="64" />
+        }
+        @Model.Player.Name
+    </h1>
+    <p><a href="https://id.joinrpg.ru/@Model.JoinrpgUserId" target="_blank">Профиль на id.joinrpg.ru</a></p>
+</div>
+
+<h2>Игры</h2>
+@if (Model.Games.Count == 0)
+{
+    <p>Игрок пока не участвовал ни в одной игре.</p>
+}
+else
+{
+    <component type="typeof(PlayerGamesTable)" render-mode="Static" param-Games="Model.Games" param-PlayerJoinrpgUserId="Model.Player.JoinrpgUserId!" />
+}

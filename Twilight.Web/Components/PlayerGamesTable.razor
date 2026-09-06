@@ -1,0 +1,55 @@
+@using JoinRpg.Common.PrimitiveTypes
+@using Twilight.Domain
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Игра</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Кем играл</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Games)
+        {
+            var slot = game.PlayerSlots.FirstOrDefault(ps => ps.Player.JoinrpgUserId == PlayerJoinrpgUserId);
+            var allSelected = game.PlayerSlots.All(ps => ps.SelectedFaction is not null);
+            <tr>
+                <td><a href="/GameView?Id=@game.Id">@game.Name</a></td>
+                <td>@(game.Date is not null ? game.Date.Value.ToString("d MMMM yyyy") : "")</td>
+                <td>@(game.Status switch
+                {
+                    GameStatus.ChoosingSides => "Выбираем стороны",
+                    GameStatus.Planned => "Запланирована",
+                    GameStatus.Played => "Прошла",
+                    GameStatus.Cancelled => "Отменена",
+                    _ => game.Status.ToString(),
+                })</td>
+                <td>
+                    @if (slot?.SelectedFaction is not null)
+                    {
+                        @if (allSelected)
+                        {
+                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@slot.SelectedFaction" param-Selected="true" />
+                        }
+                        else
+                        {
+                            <i>выбор ещё не завершён</i>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public List<Game> Games { get; set; } = null!;
+
+    [Parameter]
+    [EditorRequired]
+    public UserIdentification PlayerJoinrpgUserId { get; set; } = null!;
+}

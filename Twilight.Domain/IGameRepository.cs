@@ -8,5 +8,6 @@ namespace Twilight.Domain
         Task<Game?> LoadGameBySlug(string slug);
         Task<Game?> LoadLastGameOrDefault();
         Task<List<Game>> LoadGamesForPlayer(UserIdentification joinrpgUserId);
+        Task<Player?> LoadPlayerByJoinrpgUserId(UserIdentification joinrpgUserId);
     }
 }
