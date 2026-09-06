@@ -16,6 +16,8 @@ public class GameDeleteModel(IGameRepository gameRepository, TwilightDbContext d
 
     public Game Game { get; set; } = null!;
 
+    public bool CanDelete { get; set; }
+
     public async Task<IActionResult> OnGetAsync()
     {
         var game = await gameRepository.LoadGameById(Id);
@@ -29,6 +31,7 @@ public class GameDeleteModel(IGameRepository gameRepository, TwilightDbContext d
         }
 
         Game = game;
+        CanDelete = HasNoSelections(game);
         return Page();
     }
 
@@ -43,10 +46,18 @@ public class GameDeleteModel(IGameRepository gameRepository, TwilightDbContext d
         {
             return NotFound();
         }
+        if (!HasNoSelections(game))
+        {
+            Game = game;
+            CanDelete = false;
+            return Page();
+        }
 
         dbContext.Games.Remove(game);
         await dbContext.SaveChangesAsync();
 
         return RedirectToPage("Index");
     }
+
+    private static bool HasNoSelections(Game game) => game.PlayerSlots.All(s => s.SelectedFaction is null);
 }

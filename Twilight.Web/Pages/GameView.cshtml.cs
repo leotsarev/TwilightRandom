@@ -39,6 +39,8 @@ namespace Twilight.Web.Pages
 
         public bool CanManage { get; set; }
 
+        public bool CanDeleteGame { get; set; }
+
         public List<Domain.Faction> UnUsedFactions { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync()
@@ -64,6 +66,7 @@ namespace Twilight.Web.Pages
             AllSelected = game.PlayerSlots.All(p => p.SelectedFaction is not null);
             Alliances = game.PlayerSlots.Any(p => p.AlliedWith is not null);
             CanManage = GameAuthorization.CanManage(game, currentUserId);
+            CanDeleteGame = CanManage && game.PlayerSlots.All(p => p.SelectedFaction is null);
 
             var possibleFactions = await dbContext.Factions.ToListAsync();
 

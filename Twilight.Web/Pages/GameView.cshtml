@@ -26,7 +26,7 @@
     {
         <a asp-page="GameFinish" asp-route-Id="@Model.Game.Id" class="btn btn-primary">Игра прошла</a>
     }
-    @if (Model.CanManage)
+    @if (Model.CanDeleteGame)
     {
         <a asp-page="GameDelete" asp-route-Id="@Model.Game.Id" class="btn btn-danger">Удалить игру</a>
     }
