@@ -1,0 +1,42 @@
+@page
+@model Twilight.Web.Pages.Admin.SetGameDatesModel
+@{
+    ViewData["Title"] = "Простановка дат игр";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Простановка дат играм без даты</h1>
+</div>
+
+@if (Model.Message is not null)
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Slug</th>
+            <th>Дата</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model.UndatedGames)
+        {
+            <tr>
+                <td>@game.Id</td>
+                <td>@game.Name</td>
+                <td>@game.Slug</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="gameId" value="@game.Id" />
+                        <input type="date" name="date" required />
+                        <input type="submit" value="Проставить" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
