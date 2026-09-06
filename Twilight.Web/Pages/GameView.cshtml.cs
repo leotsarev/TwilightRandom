@@ -43,6 +43,9 @@ namespace Twilight.Web.Pages
 
         public List<Domain.Faction> UnUsedFactions { get; set; } = new();
 
+        [TempData]
+        public string? Message { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             (var game, AdminMode) = await LoadGameAsync();

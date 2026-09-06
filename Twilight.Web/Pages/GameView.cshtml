@@ -22,9 +22,20 @@
             _ => Model.Game.Status.ToString(),
         })</span>
     </p>
+    @if (Model.Message is not null)
+    {
+        <div class="alert alert-danger">@Model.Message</div>
+    }
     @if (Model.CanManage && Model.Game.Status != GameStatus.Played)
     {
-        <a asp-page="GameFinish" asp-route-Id="@Model.Game.Id" class="btn btn-primary">Игра прошла</a>
+        @if (Model.AllSelected)
+        {
+            <a asp-page="GameFinish" asp-route-Id="@Model.Game.Id" class="btn btn-primary">Игра прошла</a>
+        }
+        else
+        {
+            <button class="btn btn-primary" disabled title="Не все игроки выбрали фракцию">Игра прошла</button>
+        }
     }
     @if (Model.CanDeleteGame)
     {

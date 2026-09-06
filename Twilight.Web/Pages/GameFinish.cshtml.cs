@@ -33,6 +33,12 @@ public class GameFinishModel(IGameRepository gameRepository, TwilightDbContext d
             return NotFound();
         }
 
+        if (game.PlayerSlots.Any(s => s.SelectedFaction is null))
+        {
+            Message = "Нельзя завершить игру: не все игроки выбрали фракцию";
+            return RedirectToPage("GameView", new { Id });
+        }
+
         Game = game;
         return Page();
     }
@@ -47,6 +53,12 @@ public class GameFinishModel(IGameRepository gameRepository, TwilightDbContext d
         if (!GameAuthorization.CanManage(game, User.TryGetJoinrpgUserId()))
         {
             return NotFound();
+        }
+
+        if (game.PlayerSlots.Any(s => s.SelectedFaction is null))
+        {
+            Message = "Нельзя завершить игру: не все игроки выбрали фракцию";
+            return RedirectToPage("GameView", new { Id });
         }
 
         if (string.IsNullOrWhiteSpace(name))
