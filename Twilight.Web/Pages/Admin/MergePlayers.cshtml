@@ -1,0 +1,48 @@
+@page
+@model Twilight.Web.Pages.Admin.MergePlayersModel
+@{
+    ViewData["Title"] = "Склейка игроков";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Склейка игроков по joinrpgUserId</h1>
+</div>
+
+@if (Model.Message is not null)
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Имя</th>
+            <th>Игр</th>
+            <th>Новый joinrpgUserId</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var player in Model.UnmappedPlayers)
+        {
+            <tr>
+                <td>@player.Id</td>
+                <td>
+                    @if (player.AvatarUrl is not null)
+                    {
+                        <img src="@player.AvatarUrl" alt="" width="24" height="24" />
+                    }
+                    @player.Name
+                </td>
+                <td>@player.GameCount</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="playerId" value="@player.Id" />
+                        <input type="number" name="newJoinrpgUserId" required />
+                        <input type="submit" value="Смаппить" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
