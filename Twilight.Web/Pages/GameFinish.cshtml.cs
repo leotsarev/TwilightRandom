@@ -37,7 +37,7 @@ public class GameFinishModel(IGameRepository gameRepository, TwilightDbContext d
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(Dictionary<int, int?> points)
+    public async Task<IActionResult> OnPostAsync(Dictionary<int, int?> points, string name, string? notes)
     {
         var game = await gameRepository.LoadGameById(Id);
         if (game is null)
@@ -47,6 +47,12 @@ public class GameFinishModel(IGameRepository gameRepository, TwilightDbContext d
         if (!GameAuthorization.CanManage(game, User.TryGetJoinrpgUserId()))
         {
             return NotFound();
+        }
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            Message = "Название игры не может быть пустым";
+            return RedirectToPage(new { Id });
         }
 
         var slotPoints = new Dictionary<int, int>();
@@ -72,6 +78,8 @@ public class GameFinishModel(IGameRepository gameRepository, TwilightDbContext d
             slot.Points = slotPoints[slot.Id];
             slot.IsWinner = slot == winners[0];
         }
+        game.Name = name;
+        game.Notes = string.IsNullOrWhiteSpace(notes) ? null : notes;
         game.Status = GameStatus.Played;
 
         await dbContext.SaveChangesAsync();

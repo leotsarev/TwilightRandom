@@ -28,6 +28,11 @@
     }
 </div>
 
+@if (!string.IsNullOrWhiteSpace(Model.Game.Notes))
+{
+    <div class="alert alert-secondary">@Model.Game.Notes</div>
+}
+
 
 <table class="table table-bordered">
     <thead>
