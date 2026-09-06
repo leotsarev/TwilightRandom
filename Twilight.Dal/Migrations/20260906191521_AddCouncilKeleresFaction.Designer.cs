@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Twilight.Dal;
@@ -11,9 +12,11 @@ using Twilight.Dal;
 namespace Twilight.Web.Migrations
 {
     [DbContext(typeof(TwilightDbContext))]
-    partial class DbContextModelSnapshot : ModelSnapshot
+    [Migration("20260906191521_AddCouncilKeleresFaction")]
+    partial class AddCouncilKeleresFaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -493,9 +496,6 @@ namespace Twilight.Web.Migrations
                     b.Property<int?>("CreatedByPlayerId")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly?>("Date")
-                        .HasColumnType("date");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -504,9 +504,6 @@ namespace Twilight.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

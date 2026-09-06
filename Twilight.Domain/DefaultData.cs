@@ -33,5 +33,6 @@ public class DefaultData
                 new () {Id = 27, Name = "The Crimson Rebellion", RussianName = "Багровый Мятеж", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Crimson_Rebellion" },
                 new () {Id = 28, Name = "The Deepwrought Scholarate", RussianName = "Школа Витой Бездны", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Deepwrought_Scholarate" },
                 new () {Id = 29, Name = "The Firmament / The Obsidian", RussianName = "Небесная Твердь / Обсидиан", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Firmament_%2F_The_Obsidian" },
+                new () {Id = 30, Name = "The Council Keleres", RussianName = "Совет Келерес", WikiLink = "https://twilight-imperium.fandom.com/wiki/The_Council_Keleres" },
             };
 }
