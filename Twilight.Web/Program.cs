@@ -19,11 +19,16 @@ namespace Twilight.Web
 
             builder.Services.AddJoinRpgAuthentication(builder.Configuration);
 
+            // DataProtection uses the same physical database as TwilightDb, just under its own
+            // connection-string name, so AddJoinDataProtection's health check doesn't collide
+            // with the one AddTwilightDal already registers for "TwilightDb".
+            builder.Configuration["ConnectionStrings:DataProtection"] = builder.Configuration.GetConnectionString("TwilightDb");
+
             builder.Services.AddJoinWebPlatform(
                 configuration: builder.Configuration,
                 environment: builder.Environment,
                 appName: "Twilight.Web",
-                dataProtectionConnectionStringName: "TwilightDb",
+                dataProtectionConnectionStringName: "DataProtection",
                 telemetryServiceNames: ["Twilight.Web"]);
 
             var app = builder.Build();
