@@ -22,9 +22,13 @@
             _ => Model.Game.Status.ToString(),
         })</span>
     </p>
-    @if (Model.CanFinishGame && Model.Game.Status != GameStatus.Played)
+    @if (Model.CanManage && Model.Game.Status != GameStatus.Played)
     {
         <a asp-page="GameFinish" asp-route-Id="@Model.Game.Id" class="btn btn-primary">Игра прошла</a>
+    }
+    @if (Model.CanManage)
+    {
+        <a asp-page="GameDelete" asp-route-Id="@Model.Game.Id" class="btn btn-danger">Удалить игру</a>
     }
 </div>
 

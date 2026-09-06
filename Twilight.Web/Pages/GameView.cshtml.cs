@@ -37,7 +37,7 @@ namespace Twilight.Web.Pages
 
         public bool Alliances { get; set; }
 
-        public bool CanFinishGame { get; set; }
+        public bool CanManage { get; set; }
 
         public List<Domain.Faction> UnUsedFactions { get; set; } = new();
 
@@ -63,7 +63,7 @@ namespace Twilight.Web.Pages
 
             AllSelected = game.PlayerSlots.All(p => p.SelectedFaction is not null);
             Alliances = game.PlayerSlots.Any(p => p.AlliedWith is not null);
-            CanFinishGame = GameAuthorization.CanManage(game, currentUserId);
+            CanManage = GameAuthorization.CanManage(game, currentUserId);
 
             var possibleFactions = await dbContext.Factions.ToListAsync();
 
