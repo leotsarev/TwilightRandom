@@ -6,6 +6,7 @@
   </PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="JoinRpg.Common.WebInfrastructure" Version="2026.8.12" />
+		<PackageVersion Include="JoinRpg.Common.WebComponents" Version="2026.8.12" />
 		<PackageVersion Include="JoinRpg.Common.PrimitiveTypes" Version="2026.8.12" />
 		<PackageVersion Include="JoinRpg.Common.EntityFrameworkCore" Version="2026.8.12" />
 		<PackageVersion Include="OpenIddict.Client.AspNetCore" Version="7.6.1" />

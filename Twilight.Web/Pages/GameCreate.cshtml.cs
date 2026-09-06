@@ -36,6 +36,10 @@ public class GameCreateModel : PageModel
     [BindProperty]
     public AllianceMode AllianceMode { get; set; } = AllianceMode.None;
 
+    [Required]
+    [BindProperty]
+    public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+
     [Range(2, 3)]
     [BindProperty]
     public int FactionsPerPlayer { get; set; } = 2;
@@ -63,6 +67,7 @@ public class GameCreateModel : PageModel
             Name = Name,
             Slug = SlugGenerator.Generate(20),
             CreatedByPlayer = creator,
+            Date = Date,
         };
 
         var playerInputs = ParsePlayerList();

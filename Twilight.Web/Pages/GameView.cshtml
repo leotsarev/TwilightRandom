@@ -1,11 +1,27 @@
 ﻿@page
 @using Components
+@using Twilight.Domain
 @model Twilight.Web.Pages.GameViewModel
 @{
     ViewData["Title"] = "Страница игры";
 }
 <div class="text-center">
     <h1 class="display-4">Страница игры @Model.Game.Name</h1>
+    <p>
+        @if (Model.Game.Date is not null)
+        {
+            <span>Дата: @Model.Game.Date.Value.ToString("d MMMM yyyy")</span>
+            <br />
+        }
+        <span>Статус: @(Model.Game.Status switch
+        {
+            GameStatus.ChoosingSides => "Выбираем стороны",
+            GameStatus.Planned => "Запланирована",
+            GameStatus.Played => "Прошла",
+            GameStatus.Cancelled => "Отменена",
+            _ => Model.Game.Status.ToString(),
+        })</span>
+    </p>
 </div>
 
 

@@ -1,4 +1,5 @@
 ﻿@page
+@using Twilight.Domain
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -24,6 +25,8 @@
             <thead>
                 <tr>
                     <th>Игра</th>
+                    <th>Дата</th>
+                    <th>Статус</th>
                     <th>Кем я играл</th>
                 </tr>
             </thead>
@@ -32,6 +35,15 @@
                 {
                     <tr>
                         <td><a asp-page="GameView" asp-route-Id="@game.Id">@game.Name</a></td>
+                        <td>@(game.Date is not null ? game.Date.Value.ToString("d MMMM yyyy") : "")</td>
+                        <td>@(game.Status switch
+                        {
+                            GameStatus.ChoosingSides => "Выбираем стороны",
+                            GameStatus.Planned => "Запланирована",
+                            GameStatus.Played => "Прошла",
+                            GameStatus.Cancelled => "Отменена",
+                            _ => game.Status.ToString(),
+                        })</td>
                         <td>@Model.GetMyFaction(game)</td>
                     </tr>
                 }
