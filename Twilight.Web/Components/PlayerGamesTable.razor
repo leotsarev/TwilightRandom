@@ -31,7 +31,7 @@
                     {
                         @if (allSelected)
                         {
-                            <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@slot.SelectedFaction" param-Selected="true" />
+                            <FactionLink Faction="@slot.SelectedFaction" Selected="true" />
                         }
                         else
                         {
