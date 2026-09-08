@@ -66,7 +66,6 @@ public class GameCreateModel : PageModel
         var game = new Game
         {
             Name = Name,
-            Slug = SlugGenerator.Generate(20),
             CreatedByPlayer = creator,
             Date = Date,
         };
@@ -92,7 +91,7 @@ public class GameCreateModel : PageModel
 
         await DbContext.SaveChangesAsync();
 
-        return RedirectToPage("GameView", new { game.Slug, game.Id });
+        return RedirectToPage("GameView", new { game.Id });
 
     }
 

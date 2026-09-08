@@ -9,9 +9,6 @@ public class Game
 
     public required string Name { get; set; }
 
-    [MaxLength(20)]
-    public required string Slug { get; set; }
-
     public int? CreatedByPlayerId { get; set; }
     public virtual Player? CreatedByPlayer { get; set; }
 
@@ -32,7 +29,7 @@ public class PlayerSlot
     public Faction? SelectedFaction { get; set; }
 
     [MaxLength(20)]
-    public required string Slug { get; set; }
+    public string? Slug { get; set; }
 
     public required bool Speaker { get; set; }
     public required bool ChoosePlace { get; set; }

@@ -10,7 +10,7 @@ public static class PlayerSlotFactory
         {
             Color = result.Color,
             Player = result.Player,
-            Slug = SlugGenerator.Generate(20),
+            Slug = result.Player.JoinrpgUserId is null ? SlugGenerator.Generate(20) : null,
             SelectedFaction = null,
             PossibleFactions = result.Factions.ToList(),
             ChoosePlace = result.ChoosePlace,

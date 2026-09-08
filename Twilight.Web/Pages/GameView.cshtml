@@ -69,7 +69,7 @@
             {
                 <th>Выбрано?</th>
             }
-            @if (Model.AdminMode && !Model.AllSelected)
+            @if (Model.CanManage && !Model.AllSelected)
             {
                 <th>Ссылка</th>
             }
@@ -132,11 +132,11 @@
                                 <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-ShowAllianceCard="Model.Alliances" />
                             </form>
                         }
-                        else if (slot.SelectedFaction is not null && slot.SelectedFaction != faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
+                        else if (slot.SelectedFaction is not null && slot.SelectedFaction != faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.CanManage))
                         {
                             <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-StrikedOut="true" param-ShowAllianceCard="Model.Alliances" />
                         }
-                        else if (slot.SelectedFaction == faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
+                        else if (slot.SelectedFaction == faction && (slot.Id == Model.SlotId || Model.AllSelected || Model.CanManage))
                         {
                             <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@faction" param-Selected="true" param-ShowAllianceCard="Model.Alliances" />
                         }
@@ -146,7 +146,7 @@
                         }
                     }
 
-                    @if (slot.SelectedFaction is not null && !slot.PossibleFactions.Contains(slot.SelectedFaction)  && (slot.Id == Model.SlotId || Model.AllSelected || Model.AdminMode))
+                    @if (slot.SelectedFaction is not null && !slot.PossibleFactions.Contains(slot.SelectedFaction)  && (slot.Id == Model.SlotId || Model.AllSelected || Model.CanManage))
                     {
                         <component type="typeof(FactionLink)" render-mode="Static" param-Faction="@slot.SelectedFaction" param-Selected="true" param-ShowAllianceCard="Model.Alliances" />
                     }
@@ -173,9 +173,14 @@
                         }
                     </td>
                 }
-                @if (Model.AdminMode && !Model.AllSelected)
+                @if (Model.CanManage && !Model.AllSelected)
                 {
-                    <td><a asp-page="GameView" asp-route-Id="@Model.Game.Id" asp-route-SlotSlug="@slot.Slug">ссылка</a></td>
+                    <td>
+                        @if (slot.Player.JoinrpgUserId is null)
+                        {
+                            <a asp-page="GameView" asp-route-Id="@Model.Game.Id" asp-route-SlotSlug="@slot.Slug">ссылка</a>
+                        }
+                    </td>
                 }
             </tr>
         }

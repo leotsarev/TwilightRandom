@@ -7,9 +7,12 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-   <ul>
-       <li><a asp-page="GameCreate">Создание игры</a></li>
-   </ul>
+   @if (User.Identity?.IsAuthenticated == true)
+   {
+       <ul>
+           <li><a asp-page="GameCreate">Создание игры</a></li>
+       </ul>
+   }
 </div>
 
 @if (User.Identity?.IsAuthenticated == true)
