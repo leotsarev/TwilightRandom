@@ -31,6 +31,7 @@ namespace Twilight.Dal
 
         public Task<List<Game>> LoadGamesForPlayer(UserIdentification joinrpgUserId) =>
             GameSelector()
+                .Where(g => g.Status != GameStatus.Cancelled)
                 .Where(g => g.PlayerSlots.Any(ps => ps.Player.JoinrpgUserId == joinrpgUserId))
                 .OrderByDescending(g => g.Id)
                 .ToListAsync();
