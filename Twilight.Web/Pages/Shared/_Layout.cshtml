@@ -30,7 +30,7 @@
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-dark">@User.Identity!.Name</span>
+                                <a class="nav-link text-dark" href="/user/@User.GetJoinrpgUserId()">@User.Identity!.Name</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/logout">Выйти</a>
