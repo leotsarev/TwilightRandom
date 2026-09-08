@@ -67,7 +67,8 @@ public class GamePlayerChangeModel(IGameRepository gameRepository, TwilightDbCon
             return Page();
         }
 
-        slot!.Player = await PlayerResolver.ResolvePlayerAsync(dbContext, Name.Trim(), null);
+        var playerInput = PlayerInput.Parse(Name.Trim());
+        slot!.Player = await PlayerResolver.ResolvePlayerAsync(dbContext, playerInput.Name, playerInput.JoinrpgUserId);
         await dbContext.SaveChangesAsync();
 
         return RedirectToPage("GameView", new { Id });
