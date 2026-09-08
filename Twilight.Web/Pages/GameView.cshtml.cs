@@ -78,8 +78,7 @@ namespace Twilight.Web.Pages
             CanDeleteGame = CanManage && game.PlayerSlots.All(p => p.SelectedFaction is null);
             CanCancelGame = CanManage
                 && game.Status != GameStatus.Played
-                && game.Status != GameStatus.Cancelled
-                && game.PlayerSlots.All(p => p.Points is null);
+                && game.Status != GameStatus.Cancelled;
 
             var possibleFactions = await dbContext.Factions.ToListAsync();
 

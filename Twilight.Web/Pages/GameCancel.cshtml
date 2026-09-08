@@ -16,7 +16,7 @@
     }
     else
     {
-        <div class="alert alert-warning">Нельзя отменить игру: для неё уже проставлены очки.</div>
+        <div class="alert alert-warning">Нельзя отменить игру: она уже сыграна или отменена.</div>
         <a asp-page="GameView" asp-route-Id="@Model.Game.Id" class="btn btn-secondary">Назад</a>
     }
 </div>

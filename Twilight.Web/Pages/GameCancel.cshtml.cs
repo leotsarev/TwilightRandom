@@ -61,6 +61,5 @@ public class GameCancelModel(IGameRepository gameRepository, TwilightDbContext d
 
     private static bool CanBeCancelled(Game game) =>
         game.Status != GameStatus.Played
-        && game.Status != GameStatus.Cancelled
-        && game.PlayerSlots.All(s => s.Points is null);
+        && game.Status != GameStatus.Cancelled;
 }
