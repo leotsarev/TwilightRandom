@@ -38,6 +38,7 @@ namespace Twilight.Dal
 
         public Task<List<Game>> LoadAllGames() =>
             GameSelector()
+                .Where(g => g.Status != GameStatus.Cancelled)
                 .OrderByDescending(g => g.Id)
                 .ToListAsync();
 
