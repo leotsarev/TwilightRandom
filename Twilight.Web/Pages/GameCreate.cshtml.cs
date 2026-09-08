@@ -98,7 +98,7 @@ public class GameCreateModel : PageModel
     private List<PlayerInput> ParsePlayerList()
     {
         var lines = PlayerList.Split("\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        var playerList = lines.Select(PlayerLineParser.Parse).ToList();
+        var playerList = lines.Select(PlayerInput.Parse).ToList();
 
         if (AddToEightPlayers)
         {

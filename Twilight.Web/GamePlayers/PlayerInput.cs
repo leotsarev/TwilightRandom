@@ -4,11 +4,13 @@ namespace Twilight.Web.GamePlayers;
 
 /// <summary>
 /// Shared between initial game creation (<see cref="Pages.GameCreateModel"/>) and adding a single
-/// player to an existing game (<see cref="Pages.GamePlayerAddModel"/>): parses a player name, optionally
-/// followed by a joinrpg id after "#", e.g. "Вася #12345".
+/// player to an existing game (<see cref="Pages.GamePlayerAddModel"/>).
 /// </summary>
-public static class PlayerLineParser
+public record PlayerInput(string Name, UserIdentification? JoinrpgUserId)
 {
+    /// <summary>
+    /// Parses a player name, optionally followed by a joinrpg id after "#", e.g. "Вася #12345".
+    /// </summary>
     public static PlayerInput Parse(string line)
     {
         var parts = line.Split('#', 2, StringSplitOptions.TrimEntries);
@@ -20,5 +22,3 @@ public static class PlayerLineParser
         return new PlayerInput(line, null);
     }
 }
-
-public record PlayerInput(string Name, UserIdentification? JoinrpgUserId);
