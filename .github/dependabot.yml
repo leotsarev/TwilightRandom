@@ -1,6 +1,28 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/" 
+    directory: "/"
+    schedule:
+      interval: "daily"
+    groups:
+      net:
+        patterns:
+          - "Microsoft.Extensions.*"
+          - "System.Text.Json"
+          - "System.Net.Http.Json"
+          - "Microsoft.AspNetCore.*"
+      efcore:
+        patterns:
+          - "Microsoft.EntityFrameworkCore*"
+          - "dotnet-ef"
+      openiddict:
+        patterns:
+          - "OpenIddict.*"
+      joinrpg:
+        patterns:
+          - "JoinRpg.Common.*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
       interval: "daily"
