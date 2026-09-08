@@ -103,6 +103,7 @@ public class MergePlayersModel(TwilightDbContext dbContext) : PageModel
 
         UnmappedPlayers = players
             .Select(p => new UnmappedPlayer(p.Id, p.Name, p.AvatarUrl, gameCounts.GetValueOrDefault(p.Id)))
+            .Where(p => p.GameCount > 0)
             .OrderByDescending(p => p.GameCount)
             .ToList();
     }
