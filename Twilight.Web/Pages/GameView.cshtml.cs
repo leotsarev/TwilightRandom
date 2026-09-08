@@ -41,6 +41,10 @@ namespace Twilight.Web.Pages
 
         public bool CanDeleteGame { get; set; }
 
+        public bool ShowAddPlayer { get; set; }
+
+        public string? AddPlayerDisabledReason { get; set; }
+
         public List<Domain.Faction> UnUsedFactions { get; set; } = new();
 
         [TempData]
@@ -80,6 +84,28 @@ namespace Twilight.Web.Pages
             else
             {
                 UnUsedFactions = possibleFactions.ExceptAlreadyUsedInForUser(game, SlotId).ToList();
+            }
+
+            ShowAddPlayer = game.Status is GameStatus.ChoosingSides or GameStatus.Planned;
+            if (ShowAddPlayer)
+            {
+                var maxPlayers = Enum.GetValues<PlayerColor>().Length;
+                if (!CanManage)
+                {
+                    AddPlayerDisabledReason = "Добавлять игроков может только создатель игры";
+                }
+                else if (Alliances)
+                {
+                    AddPlayerDisabledReason = "Нельзя добавить игрока: в игре включён режим союзов";
+                }
+                else if (game.PlayerSlots.Count >= maxPlayers)
+                {
+                    AddPlayerDisabledReason = $"В игре уже максимальное количество игроков ({maxPlayers})";
+                }
+                else if (possibleFactions.ExceptAlreadyUsedIn(game).Count() < 3)
+                {
+                    AddPlayerDisabledReason = "Недостаточно свободных фракций (нужно минимум 3)";
+                }
             }
 
             return Page();

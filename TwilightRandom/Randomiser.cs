@@ -1,18 +1,22 @@
-﻿using Twilight.Domain;
+using Twilight.Domain;
 
 namespace TwilightRandom;
 
 public class Randomiser
 {
-    private HashSet<string> Players { get; }
-    private HashSet<PlayerColor> Colors { get; }
+    private HashSet<Player> Players { get; }
     private HashSet<Faction> Factions { get; }
     public AllianceMode Alliance { get; }
     private int FactionsPerPlayer { get; }
 
     public Randomiser(GameRequest gameModel, IEnumerable<Faction> factions, AllianceMode alliance)
     {
-        Players = new HashSet<string>(gameModel.Players ?? Array.Empty<string>());
+        var requestedPlayers = gameModel.Players ?? Array.Empty<Player>();
+        Players = new HashSet<Player>(requestedPlayers);
+        if (Players.Count != requestedPlayers.Length)
+        {
+            throw new Exception("Duplicate players in game request");
+        }
         if (Players.Count > 8)
         {
             throw new Exception("Too many players");
@@ -26,7 +30,6 @@ public class Randomiser
         {
             throw new Exception("Odd number of player incompatible with alliance");
         }
-        Colors = new HashSet<PlayerColor>(Enum.GetValues<PlayerColor>());
         Factions = new HashSet<Faction>(factions);
         Alliance = alliance;
 
@@ -41,69 +44,50 @@ public class Randomiser
         }
     }
 
-    private class PlayerRandomizeCell
-    {
-        public required string PlayerName { get; init; }
-        public PlayerColor? Color { get; set; }
-        public Faction[]? Factions { get; set; }
-
-        public bool Speaker { get; set; }
-        public bool ChoosePlace { get; set; }
-        public string? AlliedWtih { get; set; }
-    }
-
     public RandomizeResult Randomize()
     {
-        var players = Players.Select(player => new PlayerRandomizeCell { PlayerName = player }).ToArray();
+        // Visually impaired players are assigned first, so AddPlayer can still guarantee them Black.
+        var orderedPlayers = Players.OrderByDescending(p => p.IsVisualImpaired);
 
-        if (players.SingleOrDefault(p => p.PlayerName == "@Germesina") is PlayerRandomizeCell germesina)
+        var usedColors = new HashSet<PlayerColor>();
+        var availableFactions = new HashSet<Faction>(Factions);
+        var results = new List<PlayerRandomizeItemResult>();
+
+        foreach (var player in orderedPlayers)
         {
-            germesina.Color = SelectAndRemoveColorForImpaired();
+            var result = AddPlayer(player, usedColors, availableFactions, FactionsPerPlayer);
+            usedColors.Add(result.Color);
+            availableFactions.ExceptWith(result.Factions);
+            results.Add(result);
         }
 
-        foreach (var result in players.Where(r => r.Color is null))
-        {
-            result.Color = SelectAndRemoveRandom(Colors);
-        }
+        var speakerNum = Random.Shared.Next(0, results.Count);
+        results[speakerNum] = results[speakerNum] with { Speaker = true };
 
-        foreach (var result in players)
-        {
-            result.Factions = Enumerable.Range(0, FactionsPerPlayer).Select(_ => SelectAndRemoveRandom(Factions)).ToArray();
-        }
-
-        var speakerNum = Random.Shared.Next(0, Players.Count);
-
-        players[speakerNum].Speaker = true;
-
-        var chooserNum = Random.Shared.Next(0, Players.Count - 1);
-
+        var chooserNum = Random.Shared.Next(0, results.Count - 1);
         if (chooserNum >= speakerNum)
         {
             chooserNum++;
         }
+        results[chooserNum] = results[chooserNum] with { ChoosePlace = true };
 
-        players[chooserNum].ChoosePlace = true;
+        var shuffled = results.Shuffle().ToList();
 
-        players = players.Shuffle().ToArray();
+        SetAlliance(shuffled);
 
-        SetAlliance(players);
-
-        var items = players
-            .Select(cell => new PlayerRandomizeItemResult(cell.PlayerName, cell.Color!.Value, cell.Factions!, cell.Speaker, cell.ChoosePlace, cell.AlliedWtih))
-            .ToArray();
-        return new RandomizeResult(items, Factions.ToArray());
+        return new RandomizeResult(shuffled.ToArray(), availableFactions.ToArray());
     }
 
-    private void SetAlliance(PlayerRandomizeCell[] players)
+    private void SetAlliance(List<PlayerRandomizeItemResult> players)
     {
         switch (Alliance)
         {
             case AllianceMode.None:
                 break;
             case AllianceMode.Enabled:
-                for (int i = 0; i < players.Length / 2; i++)
+                for (int i = 0; i < players.Count / 2; i++)
                 {
-                    MakeAllied(i, (i + players.Length / 2) % players.Length);
+                    MakeAllied(i, (i + players.Count / 2) % players.Count);
                 }
                 break;
             default:
@@ -112,15 +96,41 @@ public class Randomiser
 
         void MakeAllied(int firstIdx, int secondIdx)
         {
-            players[firstIdx].AlliedWtih = players[secondIdx].PlayerName;
-            players[secondIdx].AlliedWtih = players[firstIdx].PlayerName;
+            players[firstIdx] = players[firstIdx] with { AlliedWtih = players[secondIdx].Player.Name };
+            players[secondIdx] = players[secondIdx] with { AlliedWtih = players[firstIdx].Player.Name };
         }
     }
 
-    private PlayerColor SelectAndRemoveColorForImpaired()
+    /// <summary>
+    /// Randomly assigns a color and factions to a single player. Used both for a fresh <see cref="Randomize"/>
+    /// (called once per player, in a loop) and for adding one player to an already-existing game.
+    /// </summary>
+    public static PlayerRandomizeItemResult AddPlayer(Player player, IEnumerable<PlayerColor> usedColors, IEnumerable<Faction> availableFactions, int factionsPerPlayer)
     {
-        var black = PlayerColor.Black;
-        return Colors.Remove(black) ? black : SelectAndRemoveRandom(Colors);
+        if (factionsPerPlayer < 2 || factionsPerPlayer > 3)
+        {
+            throw new Exception("Factions per player must be 2 or 3");
+        }
+
+        var colors = new HashSet<PlayerColor>(Enum.GetValues<PlayerColor>().Except(usedColors));
+        if (colors.Count == 0)
+        {
+            throw new Exception("No free colors left");
+        }
+
+        var factions = new HashSet<Faction>(availableFactions);
+        if (factions.Count < factionsPerPlayer)
+        {
+            throw new Exception("Not enough factions for requested factions per player");
+        }
+
+        var color = player.IsVisualImpaired && colors.Remove(PlayerColor.Black)
+            ? PlayerColor.Black
+            : SelectAndRemoveRandom(colors);
+
+        var pickedFactions = Enumerable.Range(0, factionsPerPlayer).Select(_ => SelectAndRemoveRandom(factions)).ToArray();
+
+        return new PlayerRandomizeItemResult(player, color, pickedFactions, Speaker: false, ChoosePlace: false, AlliedWtih: null);
     }
 
     private static T SelectAndRemoveRandom<T>(HashSet<T> set)
