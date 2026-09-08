@@ -74,7 +74,8 @@ public class GamePlayerAddModel(IGameRepository gameRepository, TwilightDbContex
         var freeFactions = allFactions.ExceptAlreadyUsedIn(game).ToList();
         var usedColors = game.PlayerSlots.Select(s => s.Color);
 
-        var player = await PlayerResolver.ResolvePlayerAsync(dbContext, Name.Trim(), null);
+        var playerInput = PlayerInput.Parse(Name.Trim());
+        var player = await PlayerResolver.ResolvePlayerAsync(dbContext, playerInput.Name, playerInput.JoinrpgUserId);
         var result = Randomiser.AddPlayer(player, usedColors, freeFactions, FactionsCount);
         game.PlayerSlots.Add(PlayerSlotFactory.CreateSlot(result));
 

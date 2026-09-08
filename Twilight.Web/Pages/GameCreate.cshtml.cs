@@ -98,7 +98,7 @@ public class GameCreateModel : PageModel
     private List<PlayerInput> ParsePlayerList()
     {
         var lines = PlayerList.Split("\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        var playerList = lines.Select(ParsePlayerLine).ToList();
+        var playerList = lines.Select(PlayerInput.Parse).ToList();
 
         if (AddToEightPlayers)
         {
@@ -109,17 +109,6 @@ public class GameCreateModel : PageModel
         }
 
         return playerList;
-    }
-
-    private static PlayerInput ParsePlayerLine(string line)
-    {
-        var parts = line.Split('#', 2, StringSplitOptions.TrimEntries);
-        if (parts.Length == 2 && int.TryParse(parts[1], out var joinrpgUserId))
-        {
-            return new PlayerInput(parts[0], new UserIdentification(joinrpgUserId));
-        }
-
-        return new PlayerInput(line, null);
     }
 
     private async Task<List<Player>> ResolveDistinctPlayersAsync(List<PlayerInput> playerInputs)
@@ -137,6 +126,4 @@ public class GameCreateModel : PageModel
 
         return resolved;
     }
-
-    private record PlayerInput(string Name, UserIdentification? JoinrpgUserId);
 }
