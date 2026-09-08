@@ -36,6 +36,11 @@ namespace Twilight.Dal
                 .OrderByDescending(g => g.Id)
                 .ToListAsync();
 
+        public Task<List<Game>> LoadAllGames() =>
+            GameSelector()
+                .OrderByDescending(g => g.Id)
+                .ToListAsync();
+
         public Task<Player?> LoadPlayerByJoinrpgUserId(UserIdentification joinrpgUserId) =>
             dbContext.Players.FirstOrDefaultAsync(p => p.JoinrpgUserId == joinrpgUserId);
     }
