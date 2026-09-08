@@ -1,0 +1,22 @@
+@page
+@model Twilight.Web.Pages.GameCancelModel
+@{
+    ViewData["Title"] = "Отмена игры";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Отменить игру @Model.Game.Name?</h1>
+    @if (Model.CanCancel)
+    {
+        <p>Игра будет переведена в статус «Отменена» и перестанет отображаться в списках игр. Данные игры не будут удалены.</p>
+        <form method="post">
+            <input type="submit" class="btn btn-danger" value="Отменить" />
+            <a asp-page="GameView" asp-route-Id="@Model.Game.Id" class="btn btn-secondary">Назад</a>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-warning">Нельзя отменить игру: она уже сыграна или отменена.</div>
+        <a asp-page="GameView" asp-route-Id="@Model.Game.Id" class="btn btn-secondary">Назад</a>
+    }
+</div>

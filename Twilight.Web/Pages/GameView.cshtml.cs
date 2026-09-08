@@ -36,6 +36,8 @@ namespace Twilight.Web.Pages
 
         public bool CanDeleteGame { get; set; }
 
+        public bool CanCancelGame { get; set; }
+
         public bool ShowAddPlayer { get; set; }
 
         public string? AddPlayerDisabledReason { get; set; }
@@ -74,6 +76,9 @@ namespace Twilight.Web.Pages
             Alliances = game.PlayerSlots.Any(p => p.AlliedWith is not null);
             CanManage = GameAuthorization.CanManage(game, currentUserId);
             CanDeleteGame = CanManage && game.PlayerSlots.All(p => p.SelectedFaction is null);
+            CanCancelGame = CanManage
+                && game.Status != GameStatus.Played
+                && game.Status != GameStatus.Cancelled;
 
             var possibleFactions = await dbContext.Factions.ToListAsync();
 
