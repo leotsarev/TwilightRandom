@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Twilight.Dal;
 using Twilight.Domain;
+using Twilight.Web.GamePlayers;
 using JoinRpg.Common.WebInfrastructure.Auth;
 using TwilightRandom;
 
@@ -71,23 +72,20 @@ public class GameCreateModel : PageModel
         };
 
         var playerInputs = ParsePlayerList();
-        var gameRequest = ConvertToGameRequest(playerInputs);
+        var players = await ResolveDistinctPlayersAsync(playerInputs);
+
+        var gameRequest = new GameRequest
+        {
+            Players = players.ToArray(),
+            FactionsPerPlayer = FactionsPerPlayer,
+        };
 
         var randomizer = new Randomiser(gameRequest, await DbContext.Factions.ToListAsync(), AllianceMode);
         var result = randomizer.Randomize();
 
-        var joinrpgUserIdsByName = playerInputs
-            .Where(p => p.JoinrpgUserId is not null)
-            .ToDictionary(p => p.Name, p => p.JoinrpgUserId!);
-
         foreach (var res in result.Players)
         {
-            var playerName = res.PlayerName;
-            joinrpgUserIdsByName.TryGetValue(playerName, out var joinrpgUserId);
-
-            var player = await ResolvePlayer(playerName, joinrpgUserId);
-
-            game.PlayerSlots.Add(CreatePlayerSlot(player, res));
+            game.PlayerSlots.Add(PlayerSlotFactory.CreateSlot(res));
         }
 
         DbContext.Games.Add(game);
@@ -125,59 +123,21 @@ public class GameCreateModel : PageModel
         return new PlayerInput(line, null);
     }
 
-    private GameRequest ConvertToGameRequest(List<PlayerInput> playerList)
+    private async Task<List<Player>> ResolveDistinctPlayersAsync(List<PlayerInput> playerInputs)
     {
-        return new GameRequest
+        var resolved = new List<Player>();
+        foreach (var input in playerInputs)
         {
-            Players = playerList.Select(p => p.Name).ToArray(),
-            FactionsPerPlayer = FactionsPerPlayer,
-        };
-    }
-
-    private async Task<Player> ResolvePlayer(string playerName, UserIdentification? joinrpgUserId)
-    {
-        if (joinrpgUserId is not null)
-        {
-            var playerByJoinrpgUserId = await DbContext.Players.FirstOrDefaultAsync(p => p.JoinrpgUserId == joinrpgUserId);
-            if (playerByJoinrpgUserId is not null)
-            {
-                return playerByJoinrpgUserId;
-            }
+            resolved.Add(await PlayerResolver.ResolvePlayerAsync(DbContext, input.Name, input.JoinrpgUserId));
         }
 
-        var playerByName = await DbContext.Players.Where(p => p.Name == playerName).FirstOrDefaultAsync();
-        if (playerByName is not null)
+        if (resolved.Distinct().Count() != playerInputs.Count)
         {
-            return playerByName;
+            throw new Exception("В списке игроков есть дубликаты (одинаковое имя или joinrpg id)");
         }
 
-        return CreatePlayer(playerName, joinrpgUserId);
+        return resolved;
     }
 
     private record PlayerInput(string Name, UserIdentification? JoinrpgUserId);
-
-    private PlayerSlot CreatePlayerSlot(Player player, PlayerRandomizeItemResult res)
-    {
-        return new PlayerSlot()
-        {
-            Color = res.Color,
-            Player = player,
-            Slug = SlugGenerator.Generate(20),
-            SelectedFaction = null,
-            PossibleFactions = res.Factions.ToList(),
-            ChoosePlace = res.ChoosePlace,
-            Speaker = res.Speaker,
-            AlliedWith = res.AlliedWtih,
-        };
-    }
-
-    private static Player CreatePlayer(string playerName, UserIdentification? joinrpgUserId)
-    {
-        return new Player()
-        {
-            Name = playerName,
-            IsVisualImpaired = false,
-            JoinrpgUserId = joinrpgUserId,
-        };
-    }
 }

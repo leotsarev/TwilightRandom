@@ -41,6 +41,17 @@
     {
         <a asp-page="GameDelete" asp-route-Id="@Model.Game.Id" class="btn btn-danger">Удалить игру</a>
     }
+    @if (Model.ShowAddPlayer)
+    {
+        @if (Model.AddPlayerDisabledReason is null)
+        {
+            <a asp-page="GamePlayerAdd" asp-route-Id="@Model.Game.Id" class="btn btn-secondary">Добавить игрока</a>
+        }
+        else
+        {
+            <button class="btn btn-secondary" disabled title="@Model.AddPlayerDisabledReason">Добавить игрока</button>
+        }
+    }
 </div>
 
 @if (!string.IsNullOrWhiteSpace(Model.Game.Notes))

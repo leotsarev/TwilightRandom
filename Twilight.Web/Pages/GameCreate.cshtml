@@ -1,5 +1,6 @@
 ﻿@page
 @using Twilight.Domain;
+@using Components
 @using JoinRpg.Common.WebComponents
 @model Twilight.Web.Pages.GameCreateModel
 @{
@@ -21,6 +22,6 @@
     <br /><textarea asp-for="PlayerList" rows="8" cols="20"> </textarea>
     <br /><input asp-for="AddToEightPlayers" id="check8"/> <label for="check8">Дополнить список игроков до восьми</label>
     <br /><label>Режим альянса:</label><select asp-for="AllianceMode" asp-items="Html.GetEnumSelectList<AllianceMode>()" id="allianceMode"></select>
-    <br/><label>Фракций на выбор:</label><select asp-for="FactionsPerPlayer" id="factionsPerPlayer"><option value="2">2</option><option value="3">3</option></select>
+    <br/><label>Фракций на выбор:</label><component type="typeof(FactionsCountSelect)" render-mode="Static" param-Name='"FactionsPerPlayer"' param-Value="@Model.FactionsPerPlayer" />
     <br /><input type="submit" value="Создать" />
 </form>

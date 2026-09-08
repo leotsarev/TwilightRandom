@@ -1,0 +1,28 @@
+@page
+@using Components
+@model Twilight.Web.Pages.GamePlayerAddModel
+@{
+    ViewData["Title"] = "Добавление игрока";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Добавить игрока в игру @Model.Game.Name</h1>
+</div>
+
+@if (Model.Message is not null)
+{
+    <div class="alert alert-danger">@Model.Message</div>
+}
+
+<form method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Имя игрока</label>
+        <input type="text" class="form-control" id="name" name="Name" value="@Model.Name" required />
+    </div>
+    <div class="mb-3">
+        <label for="FactionsCount" class="form-label">Фракций на выбор</label>
+        <component type="typeof(FactionsCountSelect)" render-mode="Static" param-Name='"FactionsCount"' param-Value="@Model.FactionsCount" />
+    </div>
+    <input type="submit" class="btn btn-primary" value="Добавить" />
+    <a asp-page="GameView" asp-route-Id="@Model.Id" class="btn btn-secondary">Отмена</a>
+</form>

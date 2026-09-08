@@ -1,0 +1,12 @@
+<select name="@Name" id="@Name">
+    <option value="2" selected="@(Value == 2)">2</option>
+    <option value="3" selected="@(Value == 3)">3</option>
+</select>
+@code {
+    [Parameter()]
+    [EditorRequired]
+    public string Name { get; set; } = null!;
+
+    [Parameter()]
+    public int Value { get; set; } = 2;
+}
