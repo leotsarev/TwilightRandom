@@ -25,7 +25,6 @@ namespace Twilight.Dal
                             .Include(g => g.CreatedByPlayer);
         }
 
-        public Task<Game?> LoadGameBySlug(string slug) => LoadGameByPredicate(g => g.Slug == slug);
         public Task<Game?> LoadGameById(int id) => LoadGameByPredicate(g => g.Id == id);
 
         public Task<Game?> LoadLastGameOrDefault() => GameSelector().OrderByDescending(g => g.Id).FirstOrDefaultAsync();

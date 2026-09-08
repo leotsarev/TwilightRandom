@@ -55,9 +55,9 @@ public class SetGameDatesModel(TwilightDbContext dbContext) : PageModel
         UndatedGames = await dbContext.Games
             .Where(g => g.Date == null)
             .OrderBy(g => g.Id)
-            .Select(g => new UndatedGame(g.Id, g.Name, g.Slug))
+            .Select(g => new UndatedGame(g.Id, g.Name))
             .ToListAsync();
     }
 
-    public record UndatedGame(int Id, string Name, string Slug);
+    public record UndatedGame(int Id, string Name);
 }

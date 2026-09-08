@@ -19,12 +19,7 @@ namespace Twilight.Web.Pages
             this.dbContext = dbContext;
         }
         [BindProperty(SupportsGet = true)]
-        public string? Slug { get; set; }
-
-        [BindProperty(SupportsGet = true)]
         public int? Id { get; set; }
-
-        public bool AdminMode { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string? SlotSlug { get; set; }
@@ -52,7 +47,12 @@ namespace Twilight.Web.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            (var game, AdminMode) = await LoadGameAsync();
+            if (Id is null)
+            {
+                return NotFound();
+            }
+
+            var game = await gameRepository.LoadGameById(Id.Value);
 
             if (game is null)
             {
@@ -77,7 +77,7 @@ namespace Twilight.Web.Pages
 
             var possibleFactions = await dbContext.Factions.ToListAsync();
 
-            if (AllSelected || AdminMode)
+            if (AllSelected || CanManage)
             {
                 UnUsedFactions = possibleFactions.ExceptAlreadyUsedIn(game).ToList();
             }
@@ -110,23 +110,6 @@ namespace Twilight.Web.Pages
 
             return Page();
 
-        }
-
-        public async Task<(Game? game, bool adminMode)> LoadGameAsync()
-        {
-            if (Slug is not null)
-            {
-                var game = await gameRepository.LoadGameBySlug(Slug);
-                if (game is not null)
-                {
-                    return (game, true);
-                }
-            }
-            if (Id is not null)
-            {
-                return (await gameRepository.LoadGameById(Id.Value), false);
-            }
-            return (null, false);
         }
     }
 }
