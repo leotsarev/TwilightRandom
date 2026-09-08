@@ -74,10 +74,6 @@
             {
                 <th>Выбрано?</th>
             }
-            @if (Model.CanManage && !Model.AllSelected)
-            {
-                <th>Ссылка</th>
-            }
         </tr>
     </thead>
     <tbody>
@@ -96,6 +92,10 @@
                     else
                     {
                         @slot.Player.Name
+                    }
+                    @if (Model.CanManage && !Model.AllSelected && slot.Player.JoinrpgUserId is null)
+                    {
+                        <a asp-page="GameView" asp-route-Id="@Model.Game.Id" asp-route-SlotSlug="@slot.Slug">(ссылка)</a>
                     }
                     @if (Model.CanManage && Model.Game.Status != GameStatus.Played)
                     {
@@ -179,15 +179,6 @@
                         else
                         {
                             <span>!!</span>
-                        }
-                    </td>
-                }
-                @if (Model.CanManage && !Model.AllSelected)
-                {
-                    <td>
-                        @if (slot.Player.JoinrpgUserId is null)
-                        {
-                            <a asp-page="GameView" asp-route-Id="@Model.Game.Id" asp-route-SlotSlug="@slot.Slug">ссылка</a>
                         }
                     </td>
                 }
