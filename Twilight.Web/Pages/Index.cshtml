@@ -15,15 +15,12 @@
    }
 </div>
 
-@if (User.Identity?.IsAuthenticated == true)
+<h2>Игры</h2>
+@if (Model.Games.Count == 0)
 {
-    <h2>Мои игры</h2>
-    @if (Model.MyGames.Count == 0)
-    {
-        <p>Вы пока не участвовали ни в одной игре.</p>
-    }
-    else
-    {
-        <component type="typeof(PlayerGamesTable)" render-mode="Static" param-Games="Model.MyGames" param-PlayerJoinrpgUserId="Model.MyJoinrpgUserId!" />
-    }
+    <p>Пока не создано ни одной игры.</p>
+}
+else
+{
+    <component type="typeof(AllGamesTable)" render-mode="Static" param-Games="Model.Games" />
 }
