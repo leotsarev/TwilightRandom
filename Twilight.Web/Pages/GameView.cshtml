@@ -95,7 +95,9 @@
                     }
                     @if (Model.CanManage && Model.Game.Status != GameStatus.Played)
                     {
-                        <component type="typeof(JoinIconButton)" render-mode="Static" param-Icon="JoinIconType.Edit" param-Link="@Url.Page("GamePlayerChange", new { Id = Model.Game.Id, SlotId = slot.Id })" param-Title="@("Сменить игрока")" />
+                        <a asp-page="GamePlayerChange" asp-route-Id="@Model.Game.Id" asp-route-SlotId="@slot.Id" title="Сменить игрока">
+                            <component type="typeof(JoinIcon)" render-mode="Static" param-Icon="JoinIconType.Edit" />
+                        </a>
                     }
                     @if (slot.AlliedWith is not null)
                     {
