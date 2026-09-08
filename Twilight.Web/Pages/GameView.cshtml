@@ -1,5 +1,6 @@
 ﻿@page
 @using Components
+@using JoinRpg.Common.WebComponents
 @using Twilight.Domain
 @model Twilight.Web.Pages.GameViewModel
 @{
@@ -91,6 +92,10 @@
                     else
                     {
                         @slot.Player.Name
+                    }
+                    @if (Model.CanManage && Model.Game.Status != GameStatus.Played)
+                    {
+                        <component type="typeof(JoinIconButton)" render-mode="Static" param-Icon="JoinIconType.Edit" param-Link="@Url.Page("GamePlayerChange", new { Id = Model.Game.Id, SlotId = slot.Id })" param-Title="@("Сменить игрока")" />
                     }
                     @if (slot.AlliedWith is not null)
                     {
