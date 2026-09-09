@@ -66,7 +66,7 @@ namespace Twilight.Web.Pages
 
             foreach (var slot in game.PlayerSlots)
             {
-                if (slot.Slug == SlotSlug || (currentUserId is not null && slot.Player.JoinrpgUserId == currentUserId))
+                if ((SlotSlug is not null && slot.Slug == SlotSlug) || (currentUserId is not null && slot.Player.JoinrpgUserId == currentUserId))
                 {
                     SlotId = slot.Id;
                 }
