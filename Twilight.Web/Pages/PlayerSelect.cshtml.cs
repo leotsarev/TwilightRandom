@@ -30,7 +30,7 @@ namespace Twilight.Web.Pages
         {
             var game = await gameRepository.LoadGameById(GameId);
             var currentUserId = User.TryGetJoinrpgUserId();
-            var player = game?.PlayerSlots.FirstOrDefault(s => s.Slug == SlotSlug || (currentUserId is not null && s.Player.JoinrpgUserId == currentUserId));
+            var player = game?.PlayerSlots.FirstOrDefault(s => (SlotSlug is not null && s.Slug == SlotSlug) || (currentUserId is not null && s.Player.JoinrpgUserId == currentUserId));
             if (player is null || game is null)
             {
                 return RedirectToPage("GameCreate", new { Id = GameId });
