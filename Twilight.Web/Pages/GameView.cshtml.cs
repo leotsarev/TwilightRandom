@@ -82,7 +82,7 @@ namespace Twilight.Web.Pages
 
             var possibleFactions = await dbContext.Factions.ToListAsync();
 
-            if (AllSelected || CanManage)
+            if (AllSelected)
             {
                 UnUsedFactions = possibleFactions.ExceptAlreadyUsedIn(game).ToList();
             }
