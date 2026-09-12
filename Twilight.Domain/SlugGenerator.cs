@@ -1,4 +1,4 @@
-﻿namespace Twilight.Domain
+namespace Twilight.Domain
 {
     public static class SlugGenerator
     {

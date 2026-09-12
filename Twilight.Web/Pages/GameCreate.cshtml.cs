@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using JoinRpg.Common.PrimitiveTypes;
+using JoinRpg.Common.WebInfrastructure.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Twilight.Dal;
 using Twilight.Domain;
 using Twilight.Web.GamePlayers;
-using JoinRpg.Common.WebInfrastructure.Auth;
 using TwilightRandom;
 
 namespace Twilight.Web.Pages;

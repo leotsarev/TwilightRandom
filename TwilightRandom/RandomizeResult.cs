@@ -1,4 +1,4 @@
-﻿using Twilight.Domain;
+using Twilight.Domain;
 
 namespace TwilightRandom;
 
