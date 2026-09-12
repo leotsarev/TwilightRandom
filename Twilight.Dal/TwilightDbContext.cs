@@ -1,4 +1,4 @@
-﻿using JoinRpg.Common.EntityFrameworkCore;
+using JoinRpg.Common.EntityFrameworkCore;
 using JoinRpg.Common.PrimitiveTypes;
 using Microsoft.EntityFrameworkCore;
 using Twilight.Domain;

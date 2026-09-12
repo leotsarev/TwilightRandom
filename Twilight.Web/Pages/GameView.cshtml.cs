@@ -1,10 +1,10 @@
+using JoinRpg.Common.WebInfrastructure.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Twilight.Dal;
 using Twilight.Domain;
 using Twilight.Web.Auth;
-using JoinRpg.Common.WebInfrastructure.Auth;
 
 namespace Twilight.Web.Pages
 {

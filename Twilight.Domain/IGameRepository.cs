@@ -1,4 +1,4 @@
-﻿using JoinRpg.Common.PrimitiveTypes;
+using JoinRpg.Common.PrimitiveTypes;
 
 namespace Twilight.Domain
 {
