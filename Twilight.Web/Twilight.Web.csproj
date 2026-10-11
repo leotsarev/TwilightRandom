@@ -5,8 +5,8 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<ContainerRuntimeIdentifier>linux-x64</ContainerRuntimeIdentifier>
 	<RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
-	<ContainerRegistry>cr.yandex</ContainerRegistry>
-	<ContainerRepository>crpais914lemf2m60cja/twilight-web</ContainerRepository>
+	<ContainerRegistry>cr.selcloud.ru</ContainerRegistry>
+	<ContainerRepository>joinrpg/twilight-web</ContainerRepository>
   </PropertyGroup>
 
   <ItemGroup>

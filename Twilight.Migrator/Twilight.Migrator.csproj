@@ -3,8 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
 	<ContainerRuntimeIdentifier>linux-x64</ContainerRuntimeIdentifier>
-	<ContainerRegistry>cr.yandex</ContainerRegistry>
-	  <ContainerRepository>crpais914lemf2m60cja/twilight-migrator</ContainerRepository>
+	<ContainerRegistry>cr.selcloud.ru</ContainerRegistry>
+	  <ContainerRepository>joinrpg/twilight-migrator</ContainerRepository>
 	<RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
 

@@ -47,9 +47,9 @@ dotnet ef migrations add <Name> --project Twilight.Dal --startup-project Twiligh
 
 ## CI/CD (`.github/workflows/build-and-publish.yml`)
 
-При push/PR: restore → проверка `dotnet format` → сборка `Twilight.Web` и `Twilight.Migrator` под `linux-x64` → `dotnet test`. При сборках не из PR (push в `master`, теги `v**`) дополнительно выполняется вход в Yandex Container Registry и публикация `Twilight.Web` и `Twilight.Migrator` как контейнеров через `dotnet publish -p:PublishProfile=DefaultContainer`. Версия вычисляется внешним скриптом в стиле GitVersion (`SemVerCalc_GitHubFlow_Actions.ps1`), а `ContainerImageTags` в `Directory.Build.props` всегда проставляет образам теги `latest` и версию.
+При push/PR: restore → проверка `dotnet format` → сборка `Twilight.Web` и `Twilight.Migrator` под `linux-x64` → `dotnet test`. При сборках не из PR (push в `master`, теги `v**`) дополнительно выполняется вход в Selectel Container Registry (`cr.selcloud.ru`, секреты `SELECTEL_CR_USERNAME`/`SELECTEL_CR_PASSWORD`) и публикация `Twilight.Web` и `Twilight.Migrator` как контейнеров через `dotnet publish -p:PublishProfile=DefaultContainer`. Версия вычисляется внешним скриптом в стиле GitVersion (`SemVerCalc_GitHubFlow_Actions.ps1`), а `ContainerImageTags` в `Directory.Build.props` всегда проставляет образам теги `latest` и версию.
 
-Контейнеры деплоятся в Kubernetes через `Twilight.Web/deployment.yml` (образ `cr.yandex/.../twilight-web:<version>`, строка подключения берётся из секрета `twilight-conn`, liveness probe на `/health/live`), а также `service.yml`/`ingress.yml`. `Twilight.Web/build.ps1` — вспомогательный скрипт для ручного/локального деплоя (`dotnet publish` + напоминание про `kubectl apply -f deployment.yml -n twilight`).
+Контейнеры деплоятся в Kubernetes через `Twilight.Web/deployment.yml` (образ `cr.selcloud.ru/joinrpg/twilight-web:<version>`, строка подключения берётся из секрета `twilight-conn`, liveness probe на `/health/live`), а также `service.yml`/`ingress.yml`. `Twilight.Web/build.ps1` — вспомогательный скрипт для ручного/локального деплоя (`dotnet publish` + напоминание про `kubectl apply -f deployment.yml -n twilight`).
 
 ## Заметки по проекту
 
