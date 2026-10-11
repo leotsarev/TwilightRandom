@@ -19,8 +19,6 @@ spec:
       labels:
         app.kubernetes.io/name: twilight
     spec:
-      imagePullSecrets:
-        - name: selectel-cr-pull
       containers:
         - name: twilight
           image: twilight-web
