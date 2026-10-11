@@ -5,7 +5,6 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<ContainerRuntimeIdentifier>linux-x64</ContainerRuntimeIdentifier>
 	<RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
-	<ContainerRegistry>cr.selcloud.ru</ContainerRegistry>
 	<ContainerRepository>joinrpg/twilight-web</ContainerRepository>
   </PropertyGroup>
 
