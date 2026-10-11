@@ -11,7 +11,8 @@ TwilightRandom — рандомизатор фракций/цветов/поря
 - `TwilightRandom/` — ядро алгоритма рандомизации (`Randomiser`, `GameRequest`, `RandomizeResult`). Чистая логика, без ввода-вывода.
 - `Twilight.Domain/` — общая доменная модель: `Game`, `Player`, `Faction`, `PlayerColor`, `AllianceMode`, `DefaultData` (данные по умолчанию), `SlugGenerator`, `IGameRepository`.
 - `Twilight.Dal/` — доступ к данным через EF Core (`TwilightDbContext`) и Npgsql, `GameRepository`, миграции в `Migrations/`. `Registration.AddTwilightDal(services, configuration)` подключает `DbContext` по строке подключения `TwilightDb`.
-- `Twilight.Web/` — основное деплоимое приложение: ASP.NET Core Razor Pages, health-check на `/health/live`, использует `AddTwilightDal`. Здесь же манифесты Kubernetes (`deployment.yml`, `service.yml`, `ingress.yml`) и `build.ps1`.
+- `Twilight.Web/` — основное деплоимое приложение: ASP.NET Core Razor Pages, health-check на `/health/live`, использует `AddTwilightDal`. Здесь же `build.ps1` для ручной публикации контейнера.
+- `manifests/` — манифесты Kubernetes (kustomize): `base/` (Deployment, Service, Ingress, Job миграций) и оверлей окружения `twilight/`.
 - `Twilight.Migrator/` — отдельный воркер, который применяет EF Core миграции при старте (`MigrationsLauncher`, `IMigratorService`/`MigrateEfCoreHostService<TwilightDbContext>`); собирается в отдельный контейнер и запускается перед `Twilight.Web` (или вместе с ним) как шаг деплоя.
 
 Поток данных: `Randomiser` (из `TwilightRandom`) принимает `GameRequest` + список `Faction` + `AllianceMode` и возвращает `RandomizeResult`; `Twilight.Web` — интерфейс над этим ядром алгоритма, дополнительно сохраняющий результат через `Twilight.Dal`.
@@ -49,7 +50,7 @@ dotnet ef migrations add <Name> --project Twilight.Dal --startup-project Twiligh
 
 При push/PR: restore → проверка `dotnet format` → сборка `Twilight.Web` и `Twilight.Migrator` под `linux-x64` → `dotnet test`. При сборках не из PR (push в `master`, теги `v**`) дополнительно выполняется вход в Yandex Container Registry и публикация `Twilight.Web` и `Twilight.Migrator` как контейнеров через `dotnet publish -p:PublishProfile=DefaultContainer`. Версия вычисляется внешним скриптом в стиле GitVersion (`SemVerCalc_GitHubFlow_Actions.ps1`), а `ContainerImageTags` в `Directory.Build.props` всегда проставляет образам теги `latest` и версию.
 
-Контейнеры деплоятся в Kubernetes через `Twilight.Web/deployment.yml` (образ `cr.yandex/.../twilight-web:<version>`, строка подключения берётся из секрета `twilight-conn`, liveness probe на `/health/live`), а также `service.yml`/`ingress.yml`. `Twilight.Web/build.ps1` — вспомогательный скрипт для ручного/локального деплоя (`dotnet publish` + напоминание про `kubectl apply -f deployment.yml -n twilight`).
+Контейнеры деплоятся в Kubernetes workflow'ом `.github/workflows/deploy-reusable.yml` из манифестов в `manifests/` (kustomize; строка подключения берётся из секрета `twilight-conn`, liveness probe на `/health/live`): сначала Job `twilight-migrator`, затем Deployment. `Twilight.Web/build.ps1` — вспомогательный скрипт для ручной публикации контейнера (`dotnet publish`).
 
 ## Заметки по проекту
 
