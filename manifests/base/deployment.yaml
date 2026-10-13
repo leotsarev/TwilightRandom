@@ -19,6 +19,9 @@ spec:
       labels:
         app.kubernetes.io/name: twilight
     spec:
+      # Секрет создаёт интеграция кластера Selectel с Container Registry
+      imagePullSecrets:
+        - name: craas-auth
       containers:
         - name: twilight
           image: twilight-web
