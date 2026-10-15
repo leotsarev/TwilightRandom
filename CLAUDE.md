@@ -12,7 +12,7 @@ TwilightRandom — рандомизатор фракций/цветов/поря
 - `Twilight.Domain/` — общая доменная модель: `Game`, `Player`, `Faction`, `PlayerColor`, `AllianceMode`, `DefaultData` (данные по умолчанию), `SlugGenerator`, `IGameRepository`.
 - `Twilight.Dal/` — доступ к данным через EF Core (`TwilightDbContext`) и Npgsql, `GameRepository`, миграции в `Migrations/`. `Registration.AddTwilightDal(services, configuration)` подключает `DbContext` по строке подключения `TwilightDb`.
 - `Twilight.Web/` — основное деплоимое приложение: ASP.NET Core Razor Pages, health-check на `/health/live`, использует `AddTwilightDal`. Здесь же `build.ps1` для ручной публикации контейнера.
-- `manifests/` — манифесты Kubernetes (kustomize): `base/` (Deployment, Service, Ingress, Job миграций) и оверлей окружения `twilight/`.
+- `manifests/` — манифесты Kubernetes (kustomize): `base/` (Deployment, Service, HTTPRoute Gateway API в `ingress.yaml`, Job миграций) и оверлей окружения `twilight/`. Маршрут цепляется к Gateway `main` в неймспейсе `infra` (traefik); TLS и сертификаты — на этом Gateway, не в манифестах приложения.
 - `Twilight.Migrator/` — отдельный воркер, который применяет EF Core миграции при старте (`MigrationsLauncher`, `IMigratorService`/`MigrateEfCoreHostService<TwilightDbContext>`); собирается в отдельный контейнер и запускается перед `Twilight.Web` (или вместе с ним) как шаг деплоя.
 
 Поток данных: `Randomiser` (из `TwilightRandom`) принимает `GameRequest` + список `Faction` + `AllianceMode` и возвращает `RandomizeResult`; `Twilight.Web` — интерфейс над этим ядром алгоритма, дополнительно сохраняющий результат через `Twilight.Dal`.
