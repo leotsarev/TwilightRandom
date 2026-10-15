@@ -7,6 +7,9 @@ spec:
   activeDeadlineSeconds: 300
   template:
     spec:
+      # Секрет создаёт интеграция кластера Selectel с Container Registry
+      imagePullSecrets:
+        - name: craas-auth
       containers:
         - name: twilight-migrator
           image: twilight-migrator
