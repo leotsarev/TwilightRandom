@@ -14,7 +14,8 @@ concurrency:
 
 jobs:
   deploy:
-    permissions: read-all
+    permissions:
+      contents: read
     uses: ./.github/workflows/deploy-reusable.yml
     with:
       deployVersion: ${{ github.event.inputs.deployVersion }}

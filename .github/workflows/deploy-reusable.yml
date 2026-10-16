@@ -31,7 +31,10 @@ jobs:
     env:
       ENVIRONMENT: ${{ inputs.environment }}
     runs-on: ubuntu-24.04
-    permissions: read-all
+    # GITHUB_TOKEN нужен только actions/checkout; реестр и кластер — через секреты.
+    # Вызывающий job должен выдавать не меньше: callee не может запросить больше, чем дал caller.
+    permissions:
+      contents: read
     steps:
       # Здесь логин нужен только чтобы узнать digest образов. Кластер тянет их сам
       # через секрет craas-auth из интеграции Managed Kubernetes с Container Registry.
