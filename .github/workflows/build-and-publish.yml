@@ -23,11 +23,10 @@ jobs:
   build:
     name: Build and publish
     runs-on: ubuntu-24.04
+    # GITHUB_TOKEN нужен только actions/checkout. Кеш и артефакты работают через
+    # ACTIONS_RUNTIME_TOKEN, а образы пушатся в Selectel и Yandex по секретам, не в ghcr.
     permissions:
-      packages: write
-      checks: write
-      actions: write
-      statuses: write
+      contents: read
 
     steps:
     - name: Checkout Repo
