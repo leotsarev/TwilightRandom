@@ -9,9 +9,9 @@
 		<PackageVersion Include="JoinRpg.Common.WebComponents" Version="2026.8.421" />
 		<PackageVersion Include="JoinRpg.Common.PrimitiveTypes" Version="2026.8.421" />
 		<PackageVersion Include="JoinRpg.Common.EntityFrameworkCore" Version="2026.8.256" />
-		<PackageVersion Include="OpenIddict.Client.AspNetCore" Version="7.7.1" />
-		<PackageVersion Include="OpenIddict.Client.SystemNetHttp" Version="7.7.1" />
-		<PackageVersion Include="OpenIddict.EntityFrameworkCore" Version="7.7.1" />
+		<PackageVersion Include="OpenIddict.Client.AspNetCore" Version="7.7.2" />
+		<PackageVersion Include="OpenIddict.Client.SystemNetHttp" Version="7.7.2" />
+		<PackageVersion Include="OpenIddict.EntityFrameworkCore" Version="7.7.2" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.20" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.12" />
 		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
